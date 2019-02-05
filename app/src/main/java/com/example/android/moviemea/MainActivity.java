@@ -6,7 +6,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import com.example.android.moviemea.adapters.MovieAdapter;
-import com.example.android.moviemea.models.Movie;
+import com.example.android.moviemea.models.MovieDetail;
 
 import java.util.ArrayList;
 
@@ -17,34 +17,34 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        ArrayList<Movie> moviesList = populateMoviesList();
+        ArrayList<MovieDetail> moviesList = populateMoviesList();
 
         RecyclerView recyclerView = findViewById(R.id.rv_movies);
         recyclerView.setAdapter(new MovieAdapter(moviesList));
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
 
-    private ArrayList<Movie> populateMoviesList() {
+    private ArrayList<MovieDetail> populateMoviesList() {
 
-        ArrayList<Movie> moviesList = new ArrayList<>();
-        moviesList.add(new Movie("Movie O;RVNOWENVOW"));
-        moviesList.add(new Movie("Movie O;RVNOWENVOW"));
-        moviesList.add(new Movie("Movie O;RVNOWENVOW"));
-        moviesList.add(new Movie("Movie O;RVNOWENVOW"));
-        moviesList.add(new Movie("Movie O;RVNOWENVOW"));
-        moviesList.add(new Movie("Movie O;RVNOWENVOW"));
-        moviesList.add(new Movie("Movie O;RVNOWENVOW"));
-        moviesList.add(new Movie("Movie O;RVNOWENVOW"));
-        moviesList.add(new Movie("Movie O;RVNOWENVOW"));
-        moviesList.add(new Movie("Movie O;RVNOWENVOW"));
-        moviesList.add(new Movie("Movie O;RVNOWENVOW"));
-        moviesList.add(new Movie("Movie O;RVNOWENVOW"));
-        moviesList.add(new Movie("Movie O;RVNOWENVOW"));
-        moviesList.add(new Movie("Movie O;RVNOWENVOW"));
-        moviesList.add(new Movie("Movie O;RVNOWENVOW"));
-        moviesList.add(new Movie("Movie O;RVNOWENVOW"));
-        moviesList.add(new Movie("Movie O;RVNOWENVOW"));
-        moviesList.add(new Movie("Movie O;RVNOWENVOW"));
+        ArrayList<MovieDetail> moviesList = new ArrayList<>();
+        moviesList.add(new MovieDetail("MovieDetail O;RVNOWENVOW"));
+        moviesList.add(new MovieDetail("MovieDetail O;RVNOWENVOW"));
+        moviesList.add(new MovieDetail("MovieDetail O;RVNOWENVOW"));
+        moviesList.add(new MovieDetail("MovieDetail O;RVNOWENVOW"));
+        moviesList.add(new MovieDetail("MovieDetail O;RVNOWENVOW"));
+        moviesList.add(new MovieDetail("MovieDetail O;RVNOWENVOW"));
+        moviesList.add(new MovieDetail("MovieDetail O;RVNOWENVOW"));
+        moviesList.add(new MovieDetail("MovieDetail O;RVNOWENVOW"));
+        moviesList.add(new MovieDetail("MovieDetail O;RVNOWENVOW"));
+        moviesList.add(new MovieDetail("MovieDetail O;RVNOWENVOW"));
+        moviesList.add(new MovieDetail("MovieDetail O;RVNOWENVOW"));
+        moviesList.add(new MovieDetail("MovieDetail O;RVNOWENVOW"));
+        moviesList.add(new MovieDetail("MovieDetail O;RVNOWENVOW"));
+        moviesList.add(new MovieDetail("MovieDetail O;RVNOWENVOW"));
+        moviesList.add(new MovieDetail("MovieDetail O;RVNOWENVOW"));
+        moviesList.add(new MovieDetail("MovieDetail O;RVNOWENVOW"));
+        moviesList.add(new MovieDetail("MovieDetail O;RVNOWENVOW"));
+        moviesList.add(new MovieDetail("MovieDetail O;RVNOWENVOW"));
 
         return moviesList;
     }

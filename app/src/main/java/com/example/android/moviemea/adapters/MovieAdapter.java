@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.android.moviemea.R;
-import com.example.android.moviemea.models.Movie;
+import com.example.android.moviemea.models.MovieDetail;
 
 import java.util.List;
 
@@ -17,10 +17,10 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
 
     private static final String LOG_TAG = MovieAdapter.class.getSimpleName();
 
-    private List<Movie> mMoviesList;
+    private List<MovieDetail> mMoviesList;
 
     /* Constructor of Adapter */
-    public MovieAdapter(List<Movie> moviesList) {
+    public MovieAdapter(List<MovieDetail> moviesList) {
         mMoviesList = moviesList;
     }
 
@@ -39,7 +39,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
     @Override
     public void onBindViewHolder(@NonNull MovieViewHolder movieViewHolder, int position) {
 
-        Movie movieAtPosition = mMoviesList.get(position);
+        MovieDetail movieAtPosition = mMoviesList.get(position);
 
         movieViewHolder.mMovieTitleTV.setText(movieAtPosition.getTitle());
     }
