@@ -241,6 +241,40 @@ public class MovieDetail {
     }
 
 
+    /* Other Methods */
+
+    @Override
+    public String toString() {
+        return "MovieDetail{" +
+                "id=" + id +
+                ", imdbId='" + imdbId + '\'' +
+                ", title='" + title + '\'' +
+                ", originalTitle='" + originalTitle + '\'' +
+                ", originalLanguage='" + originalLanguage + '\'' +
+                ", overview='" + overview + '\'' +
+                ", tagline='" + tagline + '\'' +
+                ", status='" + status + '\'' +
+                ", releaseDate='" + releaseDate + '\'' +
+                ", runtime=" + runtime +
+                ", belongsToCollection='" + belongsToCollection + '\'' +
+                ", homepage='" + homepage + '\'' +
+                ", posterPath='" + posterPath + '\'' +
+                ", backdropPath='" + backdropPath + '\'' +
+                ", budget=" + budget +
+                ", revenue=" + revenue +
+                ", popularity=" + popularity +
+                ", voteAverage=" + voteAverage +
+                ", voteCount=" + voteCount +
+                ", adult=" + adult +
+                ", video=" + video +
+                ", genres=" + genres.toString() +
+                ", productionCompanies=" + productionCompanies.toString() +
+                ", productionCountries=" + productionCountries.toString() +
+                ", spokenLanguages=" + spokenLanguages.toString() +
+                '}';
+    }
+
+
     /* Inner Classes */
 
     public static class Genre {
@@ -271,6 +305,14 @@ public class MovieDetail {
 
         public void setName(String name) {
             this.name = name;
+        }
+
+        @Override
+        public String toString() {
+            return "Genre{" +
+                    "id=" + id +
+                    ", name='" + name + '\'' +
+                    '}';
         }
     }
 
@@ -323,6 +365,17 @@ public class MovieDetail {
         public void setOriginCountry(String originCountry) {
             this.originCountry = originCountry;
         }
+
+
+        @Override
+        public String toString() {
+            return "ProductionCompany{" +
+                    "id=" + id +
+                    ", name='" + name + '\'' +
+                    ", logoPath='" + logoPath + '\'' +
+                    ", originCountry='" + originCountry + '\'' +
+                    '}';
+        }
     }
 
     public static class ProductionCountry {
@@ -354,6 +407,15 @@ public class MovieDetail {
         public void setName(String name) {
             this.name = name;
         }
+
+
+        @Override
+        public String toString() {
+            return "ProductionCountry{" +
+                    "isoCode='" + isoCode + '\'' +
+                    ", name='" + name + '\'' +
+                    '}';
+        }
     }
 
     public static class SpokenLanguage {
@@ -384,6 +446,15 @@ public class MovieDetail {
 
         public void setName(String name) {
             this.name = name;
+        }
+
+
+        @Override
+        public String toString() {
+            return "SpokenLanguage{" +
+                    "isoCode='" + isoCode + '\'' +
+                    ", name='" + name + '\'' +
+                    '}';
         }
     }
 }

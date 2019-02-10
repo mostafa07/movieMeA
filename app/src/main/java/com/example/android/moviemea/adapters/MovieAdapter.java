@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.android.moviemea.R;
-import com.example.android.moviemea.models.MovieDetail;
+import com.example.android.moviemea.models.Movie;
 
 import java.util.List;
 
@@ -17,14 +17,25 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
 
     private static final String LOG_TAG = MovieAdapter.class.getSimpleName();
 
-    private List<MovieDetail> mMoviesList;
+    private List<Movie> mMoviesList;
+
 
     /* Constructor of Adapter */
-    public MovieAdapter(List<MovieDetail> moviesList) {
-        mMoviesList = moviesList;
+
+    public MovieAdapter() {
     }
 
+
+    /* Setter Function to Update Movies Data */
+
+    public void setMoviesData(List<Movie> moviesList) {
+        mMoviesList = moviesList;
+        notifyDataSetChanged();
+    }
+
+
     /* Adapter Overridden Methods */
+
     @NonNull
     @Override
     public MovieViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
@@ -39,18 +50,21 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
     @Override
     public void onBindViewHolder(@NonNull MovieViewHolder movieViewHolder, int position) {
 
-        MovieDetail movieAtPosition = mMoviesList.get(position);
+        Movie movieAtPosition = mMoviesList.get(position);
 
-        movieViewHolder.mMovieTitleTV.setText(movieAtPosition.getTitle());
+        movieViewHolder.mMovieTitleTV.setText(movieAtPosition.toString());
     }
 
     @Override
     public int getItemCount() {
+        if (mMoviesList == null)
+            return 0;
         return mMoviesList.size();
     }
 
 
     /* View Holder Class */
+
     class MovieViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private TextView mMovieTitleTV;

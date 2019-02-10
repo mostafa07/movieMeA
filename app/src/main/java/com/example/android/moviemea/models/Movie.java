@@ -2,21 +2,22 @@ package com.example.android.moviemea.models;
 
 import java.util.ArrayList;
 
+
 public class Movie {
 
     private Integer id;
     private String title;
-    //    private String originalTitle;
-//    private String originalLanguage;
+    // private String originalTitle;
+    // private String originalLanguage;
     private String overview;
     private String releaseDate;
     private String posterPath;
     private String backdropPath;
     private Double popularity;
     private Double voteAverage;
-    //    private Integer voteCount;
-//    private Boolean adult;
-//    private Boolean video;
+    // private Integer voteCount;
+    // private Boolean adult;
+    // private Boolean video;
     private ArrayList<Integer> genreIds;
 
 
@@ -98,5 +99,23 @@ public class Movie {
 
     public void setGenreIds(ArrayList<Integer> genreIds) {
         this.genreIds = genreIds;
+    }
+
+
+    /* Other Methods */
+
+    @Override
+    public String toString() {
+        return "Movie{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", overview='" + overview + '\'' +
+                ", releaseDate='" + releaseDate + '\'' +
+                ", posterPath='" + posterPath + '\'' +
+                ", backdropPath='" + backdropPath + '\'' +
+                ", popularity=" + popularity +
+                ", voteAverage=" + voteAverage +
+                ", genreIds=" + genreIds +
+                '}';
     }
 }
