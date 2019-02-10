@@ -18,11 +18,18 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
     private static final String LOG_TAG = MovieAdapter.class.getSimpleName();
 
     private List<Movie> mMoviesList;
-
+    private final MovieAdapterOnClickHandler mClickHandler;
 
     /* Constructor of Adapter */
 
-    public MovieAdapter() {
+    public MovieAdapter(MovieAdapterOnClickHandler clickHandler) {
+        mClickHandler = clickHandler;
+    }
+
+    /* On Click Handler */
+
+    public interface MovieAdapterOnClickHandler {
+        public void onClick(Movie movie);
     }
 
 
@@ -74,11 +81,16 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
             super(rootView);
 
             mMovieTitleTV = rootView.findViewById(R.id.tv_movie_title);
+
+            rootView.setOnClickListener(this);
         }
 
         /* View Holder Overridden Methods */
         @Override
         public void onClick(View view) {
+
+            Movie movie = mMoviesList.get(getAdapterPosition());
+            mClickHandler.onClick(movie);
         }
     }
 }

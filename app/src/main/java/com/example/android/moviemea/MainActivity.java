@@ -1,10 +1,12 @@
 package com.example.android.moviemea;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.widget.ProgressBar;
 
 import com.example.android.moviemea.adapters.MovieAdapter;
@@ -16,7 +18,7 @@ import java.net.URL;
 import java.util.ArrayList;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements MovieAdapter.MovieAdapterOnClickHandler {
 
     private static final String LOG_TAG = MainActivity.class.getSimpleName();
 
@@ -30,10 +32,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-//        ArrayList<MovieDetail> moviesList = populateMoviesList();
-
         mRecyclerView = findViewById(R.id.rv_movies);
-        mAdapter = new MovieAdapter();
+        mAdapter = new MovieAdapter(this);
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.setHasFixedSize(true);
@@ -41,6 +41,18 @@ public class MainActivity extends AppCompatActivity {
         new FetchMoviesTask().execute();
     }
 
+    /* Handle Recycler View Item Clicks */
+
+    @Override
+    public void onClick(Movie movie) {
+
+        Intent movieDetailIntent = new Intent(this, MovieDetailActivity.class);
+        movieDetailIntent.putExtra("movieId", movie.getId());
+        startActivity(movieDetailIntent);
+    }
+
+
+    /* AsyncTask Inner Class Used to Fetch Movies */
 
     private class FetchMoviesTask extends AsyncTask<Void, Void, ArrayList<Movie>> {
 
