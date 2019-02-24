@@ -1,15 +1,20 @@
 package com.example.android.moviemea.adapters;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.android.moviemea.R;
 import com.example.android.moviemea.models.Movie;
+import com.example.android.moviemea.utilities.NetworkUtils;
+import com.squareup.picasso.Picasso;
 
+import java.net.URL;
 import java.util.List;
 
 
@@ -17,12 +22,14 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
 
     private static final String LOG_TAG = MovieAdapter.class.getSimpleName();
 
+//    private Context mContext;
     private List<Movie> mMoviesList;
     private final MovieAdapterOnClickHandler mClickHandler;
 
     /* Constructor of Adapter */
 
     public MovieAdapter(MovieAdapterOnClickHandler clickHandler) {
+//        mContext = context;
         mClickHandler = clickHandler;
     }
 
@@ -60,6 +67,9 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
         Movie movieAtPosition = mMoviesList.get(position);
 
         movieViewHolder.mMovieTitleTV.setText(movieAtPosition.toString());
+
+        URL moviePosterFullUrl = NetworkUtils.buildImageUrl(movieAtPosition.getPosterPath());
+        Picasso.get().load(moviePosterFullUrl.toString()).into(movieViewHolder.mMoviePosterIV);
     }
 
     @Override
@@ -75,12 +85,14 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
     class MovieViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private TextView mMovieTitleTV;
+        private ImageView mMoviePosterIV;
 
         /* Constructor of View Holder */
         public MovieViewHolder(@NonNull View rootView) {
             super(rootView);
 
-            mMovieTitleTV = rootView.findViewById(R.id.tv_movie_title);
+            mMovieTitleTV = rootView.findViewById(R.id.movie_title_text_view);
+            mMoviePosterIV = rootView.findViewById(R.id.movie_poster_image_view);
 
             rootView.setOnClickListener(this);
         }

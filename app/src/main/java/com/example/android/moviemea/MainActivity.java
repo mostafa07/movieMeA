@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.widget.ProgressBar;
 
 import com.example.android.moviemea.adapters.MovieAdapter;
@@ -32,7 +31,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mRecyclerView = findViewById(R.id.rv_movies);
+        mRecyclerView = findViewById(R.id.movies_recycler_view);
         mAdapter = new MovieAdapter(this);
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -64,7 +63,8 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         @Override
         protected ArrayList<Movie> doInBackground(Void... voids) {
 
-            URL discoverMoviesUrl = NetworkUtils.buildDiscoverMoviesUrl();
+            final int pageNum = 1;
+            URL discoverMoviesUrl = NetworkUtils.buildMoviesUrl(pageNum);
 
             ArrayList<Movie> moviesList = null;
             try {
