@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">MovieMeA</string>
+
+    <string name="movies_order_path_param_now_playing">now_playing</string>
+    <string name="movies_order_path_param_popular">popular</string>
+    <string name="movies_order_path_param_top_rated">top_rated</string>
+    <string name="movies_order_path_param_upcoming">upcoming</string>
+
+    <string name="action_now_playing">Now Playing</string>
+    <string name="action_most_popular">Most Popular</string>
+    <string name="action_top_rated">Top Rated</string>
+    <string name="action_upcoming">Upcoming</string>
 </resources>

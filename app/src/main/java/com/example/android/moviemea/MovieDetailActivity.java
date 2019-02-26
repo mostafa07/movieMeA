@@ -7,21 +7,17 @@ import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.example.android.moviemea.models.MovieDetail;
 import com.example.android.moviemea.utilities.NetworkUtils;
 import com.example.android.moviemea.utilities.TheMoviesDbJsonUtils;
 import com.squareup.picasso.Picasso;
 
-import java.net.URISyntaxException;
 import java.net.URL;
 
 
 public class MovieDetailActivity extends AppCompatActivity {
 
     private static final String LOG_TAG = MovieDetail.class.getSimpleName();
-
-    // private MovieDetail mMovieDetail;
 
     private TextView mMovieDetailsTV;
     private ImageView mMoviePosterIV;
@@ -73,10 +69,6 @@ public class MovieDetailActivity extends AppCompatActivity {
         protected void onPostExecute(MovieDetail movieDetail) {
             if (movieDetail != null) {
                 URL moviePosterFullUrl = NetworkUtils.buildImageUrl(movieDetail.getPosterPath());
-//                Glide.with(MovieDetailActivity.this)
-//                        .load(moviePosterFullUrl.toString())
-//                        .into(mMoviePosterIV);
-
                 Picasso.get().load(moviePosterFullUrl.toString()).into(mMoviePosterIV);
 
                 mMovieDetailsTV.setText(movieDetail.toString());

@@ -6,9 +6,12 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.ProgressBar;
 
 import com.example.android.moviemea.adapters.MovieAdapter;
+import com.example.android.moviemea.data.AppPreferences;
 import com.example.android.moviemea.models.Movie;
 import com.example.android.moviemea.utilities.NetworkUtils;
 import com.example.android.moviemea.utilities.TheMoviesDbJsonUtils;
@@ -38,16 +41,6 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         mRecyclerView.setHasFixedSize(true);
 
         new FetchMoviesTask().execute();
-    }
-
-    /* Handle Recycler View Item Clicks */
-
-    @Override
-    public void onClick(Movie movie) {
-
-        Intent movieDetailIntent = new Intent(this, MovieDetailActivity.class);
-        movieDetailIntent.putExtra("movieId", movie.getId());
-        startActivity(movieDetailIntent);
     }
 
 
@@ -82,5 +75,56 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
             if (moviesList != null)
                 mAdapter.setMoviesData(moviesList);
         }
+    }
+
+
+    /* Overridden Methods */
+
+    /* Handle Recycler View Item Clicks */
+    @Override
+    public void onClick(Movie movie) {
+        Intent movieDetailIntent = new Intent(this, MovieDetailActivity.class);
+        movieDetailIntent.putExtra("movieId", movie.getId());
+        startActivity(movieDetailIntent);
+    }
+
+    /* Options Menu Setup */
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main, menu);
+        return true;
+    }
+
+    /* Handle Options Menu Item Clicks */
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()) {
+            case (R.id.action_now_playing): {
+                AppPreferences.setMoviesOrderPathParam(getString(R.string.movies_order_path_param_now_playing));
+                new FetchMoviesTask().execute();
+                break;
+            }
+            case (R.id.action_most_popular): {
+                AppPreferences.setMoviesOrderPathParam(getString(R.string.movies_order_path_param_popular));
+                new FetchMoviesTask().execute();
+                break;
+            }
+            case (R.id.action_top_rated): {
+                AppPreferences.setMoviesOrderPathParam(getString(R.string.movies_order_path_param_top_rated));
+                new FetchMoviesTask().execute();
+                break;
+            }
+            case (R.id.action_upcoming): {
+                AppPreferences.setMoviesOrderPathParam(getString(R.string.movies_order_path_param_upcoming));
+                new FetchMoviesTask().execute();
+                break;
+            }
+            default:
+                break;
+        }
+        mRecyclerView.smoothScrollToPosition(0);
+
+        return super.onOptionsItemSelected(item);
     }
 }

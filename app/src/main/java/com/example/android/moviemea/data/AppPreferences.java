@@ -1,5 +1,6 @@
 package com.example.android.moviemea.data;
 
+
 public class AppPreferences {
 
     private static final String LOG_TAG = AppPreferences.class.getSimpleName();
@@ -20,7 +21,7 @@ public class AppPreferences {
         LANGUAGE_PARAM_VALUE = "en-US";
         SORT_BY_PARAM_VALUE = "popularity.desc";
 
-        MOVIES_ORDER_PATH_PARAM = UPCOMING;
+        MOVIES_ORDER_PATH_PARAM = POPULAR;      // default
         IMAGE_SIZE_PATH_PARAM = "w185";
     }
 
