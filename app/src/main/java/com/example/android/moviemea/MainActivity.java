@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
@@ -37,7 +38,9 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         mRecyclerView = findViewById(R.id.movies_recycler_view);
         mAdapter = new MovieAdapter(this);
         mRecyclerView.setAdapter(mAdapter);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        GridLayoutManager gridLayoutManager =
+                new GridLayoutManager(this, 2, LinearLayoutManager.VERTICAL, false);
+        mRecyclerView.setLayoutManager(gridLayoutManager);
         mRecyclerView.setHasFixedSize(true);
 
         new FetchMoviesTask().execute();

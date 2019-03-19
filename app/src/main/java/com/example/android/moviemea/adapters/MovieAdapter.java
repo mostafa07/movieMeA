@@ -1,6 +1,5 @@
 package com.example.android.moviemea.adapters;
 
-import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -22,26 +21,23 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
 
     private static final String LOG_TAG = MovieAdapter.class.getSimpleName();
 
-//    private Context mContext;
     private List<Movie> mMoviesList;
     private final MovieAdapterOnClickHandler mClickHandler;
 
-    /* Constructor of Adapter */
 
+    /* Constructor of Adapter */
     public MovieAdapter(MovieAdapterOnClickHandler clickHandler) {
-//        mContext = context;
         mClickHandler = clickHandler;
     }
 
-    /* On Click Handler */
 
+    /* On Click Handler */
     public interface MovieAdapterOnClickHandler {
         public void onClick(Movie movie);
     }
 
 
     /* Setter Function to Update Movies Data */
-
     public void setMoviesData(List<Movie> moviesList) {
         mMoviesList = moviesList;
         notifyDataSetChanged();
@@ -66,10 +62,10 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
 
         Movie movieAtPosition = mMoviesList.get(position);
 
-        movieViewHolder.mMovieTitleTV.setText(movieAtPosition.toString());
-
         URL moviePosterFullUrl = NetworkUtils.buildImageUrl(movieAtPosition.getPosterPath());
         Picasso.get().load(moviePosterFullUrl.toString()).into(movieViewHolder.mMoviePosterIV);
+
+        movieViewHolder.mMovieTitleTV.setText(movieAtPosition.getTitle());
     }
 
     @Override
@@ -87,6 +83,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
         private TextView mMovieTitleTV;
         private ImageView mMoviePosterIV;
 
+
         /* Constructor of View Holder */
         public MovieViewHolder(@NonNull View rootView) {
             super(rootView);
@@ -100,7 +97,6 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
         /* View Holder Overridden Methods */
         @Override
         public void onClick(View view) {
-
             Movie movie = mMoviesList.get(getAdapterPosition());
             mClickHandler.onClick(movie);
         }
