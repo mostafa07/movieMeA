@@ -100,19 +100,21 @@ public class TheMoviesDbJsonUtils {
         JSONObject jsonObj = new JSONObject(jsonStr);
 
         Integer id = jsonObj.getInt(ID);
-        String imdbId = jsonObj.getString(IMDB_ID);
+        String imdbId = jsonObj.has(IMDB_ID) && !jsonObj.isNull(IMDB_ID) ? jsonObj.getString(IMDB_ID) : null;
         String title = jsonObj.getString(TITLE);
         String originalTitle = jsonObj.getString(ORIGINAL_TITLE);
         String originalLanguage = jsonObj.getString(ORIGINAL_LANGUAGE);
         String overview = jsonObj.getString(OVERVIEW);
-        String tagline = jsonObj.getString(TAGLINE);
+        String tagline = jsonObj.has(TAGLINE) && !jsonObj.isNull(TAGLINE) ? jsonObj.getString(TAGLINE) : null;
         String status = jsonObj.getString(STATUS);
         String releaseDate = jsonObj.getString(RELEASE_DATE);
-        Integer runtime = jsonObj.getInt(RUNTIME);
-        String belongsToCollection = jsonObj.getString(BELONGS_TO_COLLECTION);
-        String homepage = jsonObj.getString(HOMEPAGE);
-        String posterPath = jsonObj.getString(POSTER_PATH);
-        String backdropPath = jsonObj.getString(BACKDROP_PATH);
+        Integer runtime = jsonObj.has(RUNTIME) && !jsonObj.isNull(RUNTIME) ? jsonObj.getInt(RUNTIME) : null;
+        //TODO: test
+        String belongsToCollection = jsonObj.has(BELONGS_TO_COLLECTION) && !jsonObj.isNull(BELONGS_TO_COLLECTION) ?
+                jsonObj.getString(BELONGS_TO_COLLECTION) : null;
+        String homepage = jsonObj.has(HOMEPAGE) && !jsonObj.isNull(HOMEPAGE) ? jsonObj.getString(HOMEPAGE) : null;
+        String posterPath = jsonObj.has(POSTER_PATH) && !jsonObj.isNull(POSTER_PATH) ? jsonObj.getString(POSTER_PATH) : null;
+        String backdropPath = jsonObj.has(BACKDROP_PATH) && !jsonObj.isNull(BACKDROP_PATH) ? jsonObj.getString(BACKDROP_PATH) : null;
         Integer budget = jsonObj.getInt(BUDGET);
         Integer revenue = jsonObj.getInt(REVENUE);
         Double popularity = jsonObj.getDouble(POPULARITY);
@@ -136,7 +138,8 @@ public class TheMoviesDbJsonUtils {
             JSONObject productionCompanyItem = productionCompaniesJsonArray.getJSONObject(i);
             Integer productionCompanyId = productionCompanyItem.getInt(ID);
             String productionCompanyName = productionCompanyItem.getString(NAME);
-            String productionCompanyLogoPath = productionCompanyItem.getString(LOGO_PATH);
+            String productionCompanyLogoPath = jsonObj.has(LOGO_PATH) && !jsonObj.isNull(LOGO_PATH) ?
+                    jsonObj.getString(LOGO_PATH) : null;
             String productionCompanyOriginCountry = productionCompanyItem.getString(ORIGIN_COUNTRY);
             productionCompanies.add(new MovieDetail.ProductionCompany(productionCompanyId, productionCompanyName,
                     productionCompanyLogoPath, productionCompanyOriginCountry));

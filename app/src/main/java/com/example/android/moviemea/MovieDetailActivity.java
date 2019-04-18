@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.android.moviemea.models.MovieDetail;
 import com.example.android.moviemea.utilities.NetworkUtils;
@@ -19,23 +20,38 @@ public class MovieDetailActivity extends AppCompatActivity {
 
     private static final String LOG_TAG = MovieDetail.class.getSimpleName();
 
-    private TextView mMovieDetailsTV;
+    private MovieDetail mMovie;
+
     private ImageView mMoviePosterIV;
+    private TextView mMovieTitleTV;
+    private TextView mMovieReleaseDateTV;
+    private TextView mMovieVoteAverageTV;
+    private TextView mMovieOverviewTV;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie_detail);
 
-        mMovieDetailsTV = findViewById(R.id.movie_detail_all_text_view);
-        mMoviePosterIV = findViewById(R.id.movie_detail_poster_image_view);
+        setupViews();
 
         int movieId = getIntent().getIntExtra("movieId", -1);
         if (movieId == -1) {
-            mMovieDetailsTV.setText("Error: Movie id is unavailable");
+            //TODO: empty view
+            //mMovieDetailsTV.setText("Error: Movie id is unavailable");
+            Toast.makeText(getApplicationContext(), "Couldn't Fetch Movie!", Toast.LENGTH_SHORT).show();
         } else {
             new FetchMovieDetailsTask().execute(movieId);
         }
+    }
+
+
+    private void setupViews() {
+        mMoviePosterIV = findViewById(R.id.movie_detail_poster_image_view);
+        mMovieTitleTV = findViewById(R.id.movie_detail_title_text_view);
+        mMovieReleaseDateTV = findViewById(R.id.movie_detail_release_date_text_view);
+        mMovieVoteAverageTV = findViewById(R.id.movie_detail_vote_average_text_view);
+        mMovieOverviewTV = findViewById(R.id.movie_detail_overview_text_view);
     }
 
 
@@ -70,8 +86,15 @@ public class MovieDetailActivity extends AppCompatActivity {
             if (movieDetail != null) {
                 URL moviePosterFullUrl = NetworkUtils.buildImageUrl(movieDetail.getPosterPath());
                 Picasso.get().load(moviePosterFullUrl.toString()).into(mMoviePosterIV);
+                //TODO: set color based on vote average
+                mMovieVoteAverageTV.setBackgroundResource(R.drawable.circle);
 
-                mMovieDetailsTV.setText(movieDetail.toString());
+                mMovieTitleTV.setText(movieDetail.getTitle());
+                mMovieReleaseDateTV.setText("Release date: " + movieDetail.getReleaseDate());
+                mMovieVoteAverageTV.setText(Double.toString(movieDetail.getVoteAverage()));
+                mMovieOverviewTV.setText(movieDetail.getOverview());
+
+                mMovie = movieDetail;
             }
         }
     }
