@@ -10,4 +10,11 @@
     <string name="action_most_popular">Most Popular</string>
     <string name="action_top_rated">Top Rated</string>
     <string name="action_upcoming">Upcoming</string>
+
+    <string name="error_generic">Oops! Something went wrong</string>
+    <string name="error_no_data_found">Oops! Could not get any data.
+        Please check your internet connection and try again</string>
+    <string name="error_no_movie_id">Oops! Something went wrong with fetching movie.
+        Please go back and try again</string>
+    <string name="release_date">Release date:</string>
 </resources>

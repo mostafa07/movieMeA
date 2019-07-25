@@ -15,131 +15,126 @@ import java.util.Scanner;
 
 public class NetworkUtils {
 
-    private static final String LOG_TAG = NetworkUtils.class.getSimpleName();
+	private static final String LOG_TAG = NetworkUtils.class.getSimpleName();
 
-    private static final String API_BASE_URL = "https://api.themoviedb.org";
-    private static final String IMAGES_BASE_URL = "https://image.tmdb.org/t/p";
-    private static final String API_VERSION = "3";
+	private static final String API_BASE_URL = "https://api.themoviedb.org";
+	private static final String IMAGES_BASE_URL = "https://image.tmdb.org/t/p";
+	private static final String API_VERSION = "3";
 
-    private static final String API_KEY_PARAM = "api_key";
-    private static final String API_KEY_VALUE = "";     // TODO: Put your themoviesdb API_KEY here
+	private static final String API_KEY_PARAM = "api_key";
+	private static final String API_KEY_VALUE = "";     // TODO: Put your themoviesdb API_KEY here
 
-    private static final String MOVIES_PATH = "movie";
-    private static final String POPULAR_PATH = "popular";
-    private static final String DISCOVER_PATH = "discover";
-    private static final String TOP_RATED_PATH = "top_rated";
+	private static final String MOVIES_PATH = "movie";
+	private static final String POPULAR_PATH = "popular";
+	private static final String DISCOVER_PATH = "discover";
+	private static final String TOP_RATED_PATH = "top_rated";
 
-    private static final String LANGUAGE_PARAM_KEY = "language";
-    private static final String PAGE_PARAM_KEY = "page";
-    private static final String SORT_BY_PARAM_KEY = "sort_by";
+	private static final String LANGUAGE_PARAM_KEY = "language";
+	private static final String PAGE_PARAM_KEY = "page";
+	private static final String SORT_BY_PARAM_KEY = "sort_by";
 
 
-    public static URL buildMoviesUrl(int pageNum) {
+	public static URL buildMoviesUrl(int pageNum) {
+		final String languageParamValue = AppPreferences.getLanguageParamValue();
+		final String moviesOrderPathParam = AppPreferences.getMoviesOrderPathParam();
 
-        final String languageParamValue = AppPreferences.getLanguageParamValue();
-        final String moviesOrderPathParam = AppPreferences.getMoviesOrderPathParam();
+		Uri uri = Uri.parse(API_BASE_URL).buildUpon()
+				.appendPath(API_VERSION)
+				.appendPath(MOVIES_PATH)
+				.appendPath(moviesOrderPathParam)
+				.appendQueryParameter(API_KEY_PARAM, API_KEY_VALUE)
+				.appendQueryParameter(LANGUAGE_PARAM_KEY, languageParamValue)
+				.appendQueryParameter(PAGE_PARAM_KEY, Integer.toString(pageNum))
+				.build();
 
-        Uri uri = Uri.parse(API_BASE_URL).buildUpon()
-                .appendPath(API_VERSION)
-                .appendPath(MOVIES_PATH)
-                .appendPath(moviesOrderPathParam)
-                .appendQueryParameter(API_KEY_PARAM, API_KEY_VALUE)
-                .appendQueryParameter(LANGUAGE_PARAM_KEY, languageParamValue)
-                .appendQueryParameter(PAGE_PARAM_KEY, Integer.toString(pageNum))
-                .build();
+		URL url = null;
+		try {
+			url = new URL(uri.toString());
+		} catch (MalformedURLException ex) {
+			ex.printStackTrace();
+		}
 
-        URL url = null;
-        try {
-            url = new URL(uri.toString());
-        } catch (MalformedURLException ex) {
-            ex.printStackTrace();
-        }
+		return url;
+	}
 
-        return url;
-    }
+	public static URL buildDiscoverMoviesUrl(int pageNum) {
+		final String languageParamValue = AppPreferences.getLanguageParamValue();
+		final String sortByParamValue = AppPreferences.getSortByParamValue();
 
-    public static URL buildDiscoverMoviesUrl(int pageNum) {
+		Uri uri = Uri.parse(API_BASE_URL).buildUpon()
+				.appendPath(API_VERSION)
+				.appendPath(DISCOVER_PATH)
+				.appendPath(MOVIES_PATH)
+				.appendQueryParameter(API_KEY_PARAM, API_KEY_VALUE)
+				.appendQueryParameter(LANGUAGE_PARAM_KEY, languageParamValue)
+				.appendQueryParameter(SORT_BY_PARAM_KEY, sortByParamValue)
+				.appendQueryParameter(PAGE_PARAM_KEY, Integer.toString(pageNum))
+				.build();
 
-        final String languageParamValue = AppPreferences.getLanguageParamValue();
-        final String sortByParamValue = AppPreferences.getSortByParamValue();
+		URL url = null;
+		try {
+			url = new URL(uri.toString());
+		} catch (MalformedURLException ex) {
+			ex.printStackTrace();
+		}
 
-        Uri uri = Uri.parse(API_BASE_URL).buildUpon()
-                .appendPath(API_VERSION)
-                .appendPath(DISCOVER_PATH)
-                .appendPath(MOVIES_PATH)
-                .appendQueryParameter(API_KEY_PARAM, API_KEY_VALUE)
-                .appendQueryParameter(LANGUAGE_PARAM_KEY, languageParamValue)
-                .appendQueryParameter(SORT_BY_PARAM_KEY, sortByParamValue)
-                .appendQueryParameter(PAGE_PARAM_KEY, Integer.toString(pageNum))
-                .build();
+		return url;
+	}
 
-        URL url = null;
-        try {
-            url = new URL(uri.toString());
-        } catch (MalformedURLException ex) {
-            ex.printStackTrace();
-        }
+	public static URL buildMovieDetailUrlById(int movieId) {
+		final String languageParamValue = AppPreferences.getLanguageParamValue();
 
-        return url;
-    }
+		Uri uri = Uri.parse(API_BASE_URL).buildUpon()
+				.appendPath(API_VERSION)
+				.appendPath(MOVIES_PATH)
+				.appendPath(Integer.toString(movieId))
+				.appendQueryParameter(API_KEY_PARAM, API_KEY_VALUE)
+				.appendQueryParameter(LANGUAGE_PARAM_KEY, languageParamValue)
+				.build();
 
-    public static URL buildMovieDetailUrlById(int movieId) {
+		URL url = null;
+		try {
+			url = new URL(uri.toString());
+		} catch (MalformedURLException ex) {
+			ex.printStackTrace();
+		}
 
-        final String languageParamValue = AppPreferences.getLanguageParamValue();
+		return url;
+	}
 
-        Uri uri = Uri.parse(API_BASE_URL).buildUpon()
-                .appendPath(API_VERSION)
-                .appendPath(MOVIES_PATH)
-                .appendPath(Integer.toString(movieId))
-                .appendQueryParameter(API_KEY_PARAM, API_KEY_VALUE)
-                .appendQueryParameter(LANGUAGE_PARAM_KEY, languageParamValue)
-                .build();
+	public static URL buildImageUrl(String imageRelativePath) {
+		final String imageSizePathParam = AppPreferences.getImageSizePathParam();
 
-        URL url = null;
-        try {
-            url = new URL(uri.toString());
-        } catch (MalformedURLException ex) {
-            ex.printStackTrace();
-        }
+		Uri uri = Uri.parse(IMAGES_BASE_URL).buildUpon()
+				.appendPath(imageSizePathParam)
+				.appendEncodedPath(imageRelativePath)
+				.build();
 
-        return url;
-    }
+		URL url = null;
+		try {
+			url = new URL(uri.toString());
+		} catch (MalformedURLException ex) {
+			ex.printStackTrace();
+		}
 
-    public static URL buildImageUrl(String imageRelativePath) {
+		return url;
+	}
 
-        final String imageSizePathParam = AppPreferences.getImageSizePathParam();
+	public static String getResponseFromHttpUrl(URL url) throws IOException {
+		HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+		try {
+			InputStream in = urlConnection.getInputStream();
 
-        Uri uri = Uri.parse(IMAGES_BASE_URL).buildUpon()
-                .appendPath(imageSizePathParam)
-                .appendEncodedPath(imageRelativePath)
-                .build();
+			Scanner scanner = new Scanner(in);
+			scanner.useDelimiter("\\A");
 
-        URL url = null;
-        try {
-            url = new URL(uri.toString());
-        } catch (MalformedURLException ex) {
-            ex.printStackTrace();
-        }
-
-        return url;
-    }
-
-    public static String getResponseFromHttpUrl(URL url) throws IOException {
-
-        HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-        try {
-            InputStream in = urlConnection.getInputStream();
-
-            Scanner scanner = new Scanner(in);
-            scanner.useDelimiter("\\A");
-
-            if (scanner.hasNext()) {
-                return scanner.next();
-            } else {
-                return null;
-            }
-        } finally {
-            urlConnection.disconnect();
-        }
-    }
+			if (scanner.hasNext()) {
+				return scanner.next();
+			} else {
+				return null;
+			}
+		} finally {
+			urlConnection.disconnect();
+		}
+	}
 }
