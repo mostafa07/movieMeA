@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="pref_movies_order_option_labels">
+        <item>@string/pref_movies_order_label_now_playing</item>
+        <item>@string/pref_movies_order_label_popular</item>
+        <item>@string/pref_movies_order_label_top_rated</item>
+        <item>@string/pref_movies_order_label_upcoming</item>
+    </string-array>
+
+    <string-array name="pref_movies_order_option_entries_values">
+        <item>@string/pref_movies_order_entry_now_playing</item>
+        <item>@string/pref_movies_order_entry_popular</item>
+        <item>@string/pref_movies_order_entry_top_rated</item>
+        <item>@string/pref_movies_order_entry_upcoming</item>
+    </string-array>
+</resources>

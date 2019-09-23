@@ -2,5 +2,6 @@
 <resources>
     <dimen name="progress_bar_min_size">48dp</dimen>
 
-    <dimen name="grid_list_item_poster_height">310dp</dimen>
+    <dimen name="grid_list_item_poster_height">300dp</dimen>
+    <dimen name="navigation_view_margin_end">56dp</dimen>
 </resources>

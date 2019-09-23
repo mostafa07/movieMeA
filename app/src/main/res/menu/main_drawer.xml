@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_now_playing"
+            android:checked="true"
+            android:icon="@drawable/ic_movie_black_24dp"
+            android:title="@string/nav_now_playing" />
+        <item
+            android:id="@+id/nav_most_popular"
+            android:icon="@drawable/ic_movie_black_24dp"
+            android:title="@string/nav_most_popular" />
+        <item
+            android:id="@+id/nav_top_rated"
+            android:icon="@drawable/ic_movie_black_24dp"
+            android:title="@string/nav_top_rated" />
+        <item
+            android:id="@+id/nav_upcoming"
+            android:icon="@drawable/ic_movie_black_24dp"
+            android:title="@string/nav_upcoming" />
+        <item
+            android:id="@+id/nav_favorites"
+            android:icon="@drawable/ic_star_black_24dp"
+            android:title="@string/nav_favorites" />
+    </group>
+
+    <item android:title="@string/other">
+        <menu>
+            <item
+                android:id="@+id/nav_settings"
+                android:icon="@drawable/ic_settings_black_24dp"
+                android:title="@string/nav_settings" />
+        </menu>
+    </item>
+
+</menu>

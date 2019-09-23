@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.example.android.moviemea.R;
 import com.example.android.moviemea.models.Movie;
@@ -69,9 +68,11 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
 		Movie movieAtPosition = mMoviesList.get(position);
 
 		URL moviePosterFullUrl = NetworkUtils.buildImageUrl(movieAtPosition.getPosterPath());
-		Picasso.get().load(moviePosterFullUrl.toString()).into(movieViewHolder.mMoviePosterIV);
+		Picasso.get().load(moviePosterFullUrl.toString())
+				.fit()
+				.into(movieViewHolder.mMoviePosterIV);
 
-		movieViewHolder.mMovieTitleTV.setText(movieAtPosition.getTitle());
+		//movieViewHolder.mMovieTitleTV.setText(movieAtPosition.getTitle());
 	}
 
 	@Override
@@ -86,7 +87,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
 
 	class MovieViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-		private TextView mMovieTitleTV;
+		//private TextView mMovieTitleTV;
 		private ImageView mMoviePosterIV;
 
 
@@ -94,7 +95,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
 		public MovieViewHolder(@NonNull View rootView) {
 			super(rootView);
 
-			mMovieTitleTV = rootView.findViewById(R.id.movie_title_text_view);
+			//mMovieTitleTV = rootView.findViewById(R.id.movie_title_text_view);
 			mMoviePosterIV = rootView.findViewById(R.id.movie_poster_image_view);
 
 			rootView.setOnClickListener(this);
