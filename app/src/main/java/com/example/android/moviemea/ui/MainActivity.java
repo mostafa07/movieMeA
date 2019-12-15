@@ -21,7 +21,6 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -55,6 +54,8 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
 
     private LoaderManager mLoaderManager;
 
+    private String mCurrentMoviesOrderPrefValue;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,11 +65,9 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         sharedPreferences.registerOnSharedPreferenceChangeListener(this);
 
-        setupNavigationDrawerAndToolbar();
         setupViews();
-
-        mLoaderManager = getSupportLoaderManager();
-        mLoaderManager.initLoader(MOVIES_LOADER_ID, null, MainActivity.this);
+        initMoviesLoaderUponCreate();
+        setupNavigationDrawerAndToolbar();
     }
 
     @Override
@@ -87,28 +86,31 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         actionBar.setHomeAsUpIndicator(R.drawable.ic_menu_white_24dp);
         actionBar.setDisplayHomeAsUpEnabled(true);
 
+        updateCheckedNavMenuItem();
+
         mNavigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                final String nowPlaying = getString(R.string.movies_order_path_param_now_playing);
+                final String mostPopular = getString(R.string.movies_order_path_param_popular);
+                final String topRated = getString(R.string.movies_order_path_param_top_rated);
+                final String upcoming = getString(R.string.movies_order_path_param_upcoming);
+
                 switch (item.getItemId()) {
                     case (R.id.nav_now_playing): {
-                        AppSharedPreferences.write(AppSharedPreferences.MOVIES_ORDER_PATH_PARAM_PREF_KEY,
-                                getString(R.string.movies_order_path_param_now_playing));
+                        restartLoader(nowPlaying);
                         break;
                     }
                     case (R.id.nav_most_popular): {
-                        AppSharedPreferences.write(AppSharedPreferences.MOVIES_ORDER_PATH_PARAM_PREF_KEY,
-                                getString(R.string.movies_order_path_param_popular));
+                        restartLoader(mostPopular);
                         break;
                     }
                     case (R.id.nav_top_rated): {
-                        AppSharedPreferences.write(AppSharedPreferences.MOVIES_ORDER_PATH_PARAM_PREF_KEY,
-                                getString(R.string.movies_order_path_param_top_rated));
+                        restartLoader(topRated);
                         break;
                     }
                     case (R.id.nav_upcoming): {
-                        AppSharedPreferences.write(AppSharedPreferences.MOVIES_ORDER_PATH_PARAM_PREF_KEY,
-                                getString(R.string.movies_order_path_param_upcoming));
+                        restartLoader(upcoming);
                         break;
                     }
                     case (R.id.nav_favorites): {
@@ -148,7 +150,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         mRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                mLoaderManager.restartLoader(MOVIES_LOADER_ID, null, MainActivity.this);
+                restartLoader(mCurrentMoviesOrderPrefValue);
             }
         });
         mRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright,
@@ -157,6 +159,18 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
                 android.R.color.holo_red_light);
     }
 
+    private void initMoviesLoaderUponCreate() {
+        mLoaderManager = getSupportLoaderManager();
+
+        final String moviesOrderBundleKey = getResources().getString(R.string.movies_order_loader_bundle_key);
+        final String moviesOrderPrefValue = AppSharedPreferences.read(AppSharedPreferences.MOVIES_ORDER_PATH_PARAM_PREF_KEY,
+                AppSharedPreferences.MOVIES_ORDER_PATH_PARAM_DEFAULT_VALUE);
+        Bundle bundle = new Bundle();
+        bundle.putString(moviesOrderBundleKey, moviesOrderPrefValue);
+        mLoaderManager.initLoader(MOVIES_LOADER_ID, bundle, MainActivity.this);
+
+        mCurrentMoviesOrderPrefValue = moviesOrderPrefValue;
+    }
 
     /* Overridden Methods */
 
@@ -184,7 +198,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         mProgressBar.setVisibility(View.VISIBLE);
         mEmptyView.setVisibility(View.INVISIBLE);
 
-        return new MoviesAsyncTaskLoader(MainActivity.this);
+        return new MoviesAsyncTaskLoader(MainActivity.this, bundle);
     }
 
     @Override
@@ -208,32 +222,52 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         if (key.equals(getString(R.string.pref_movies_order_key))) {
-            mLoaderManager.restartLoader(MOVIES_LOADER_ID, null, MainActivity.this);
-
-            String moviesOrderPrefValue = AppSharedPreferences.read(AppSharedPreferences.MOVIES_ORDER_PATH_PARAM_PREF_KEY,
+            final String moviesOrderPrefValue = AppSharedPreferences.read(AppSharedPreferences.MOVIES_ORDER_PATH_PARAM_PREF_KEY,
                     AppSharedPreferences.MOVIES_ORDER_PATH_PARAM_DEFAULT_VALUE);
-
-            if (moviesOrderPrefValue.equals(getString(R.string.pref_movies_order_entry_now_playing))) {
-                mNavigationView.getMenu().findItem(R.id.nav_now_playing).setChecked(true);
-            } else if (moviesOrderPrefValue.equals(getString(R.string.pref_movies_order_entry_popular))) {
-                mNavigationView.getMenu().findItem(R.id.nav_most_popular).setChecked(true);
-            } else if (moviesOrderPrefValue.equals(getString(R.string.pref_movies_order_entry_top_rated))) {
-                mNavigationView.getMenu().findItem(R.id.nav_top_rated).setChecked(true);
-            } else if (moviesOrderPrefValue.equals(getString(R.string.pref_movies_order_entry_upcoming))) {
-                mNavigationView.getMenu().findItem(R.id.nav_upcoming).setChecked(true);
-            }
+            restartLoader(moviesOrderPrefValue);
         }
     }
 
+    /* Helper Methods */
+
+    /* Restart Loader and Update Current Movie Order Preference and Navigation Menu Item */
+    private void restartLoader(String moviesOrderPrefValue) {
+        final String moviesOrderLoaderBundleKey = getString(R.string.movies_order_loader_bundle_key);
+        Bundle bundle = new Bundle();
+        bundle.putString(moviesOrderLoaderBundleKey, moviesOrderPrefValue);
+        mLoaderManager.restartLoader(MOVIES_LOADER_ID, bundle, MainActivity.this);
+
+        mCurrentMoviesOrderPrefValue = moviesOrderPrefValue;
+        updateCheckedNavMenuItem();
+    }
+
+    /* Highlight Navigation Menu Item According to Current Movie Order Preference */
+    private void updateCheckedNavMenuItem() {
+        if (mCurrentMoviesOrderPrefValue.equals(getString(R.string.pref_movies_order_entry_now_playing))) {
+            mNavigationView.getMenu().findItem(R.id.nav_now_playing).setChecked(true);
+        } else if (mCurrentMoviesOrderPrefValue.equals(getString(R.string.pref_movies_order_entry_popular))) {
+            mNavigationView.getMenu().findItem(R.id.nav_most_popular).setChecked(true);
+        } else if (mCurrentMoviesOrderPrefValue.equals(getString(R.string.pref_movies_order_entry_top_rated))) {
+            mNavigationView.getMenu().findItem(R.id.nav_top_rated).setChecked(true);
+        } else if (mCurrentMoviesOrderPrefValue.equals(getString(R.string.pref_movies_order_entry_upcoming))) {
+            mNavigationView.getMenu().findItem(R.id.nav_upcoming).setChecked(true);
+        }
+    }
 
     /* AsyncTaskLoader Inner Class Used to Fetch Movies */
 
     private static class MoviesAsyncTaskLoader extends AsyncTaskLoader<List<Movie>> {
 
         private List<Movie> mData;
+        private String mMoviesOrderNotFromSharedPreferences;
 
-        public MoviesAsyncTaskLoader(Context context) {
+        public MoviesAsyncTaskLoader(Context context, Bundle bundle) {
             super(context);
+
+            if (bundle != null) {
+                final String moviesOrderBundleKey = context.getResources().getString(R.string.movies_order_loader_bundle_key);
+                mMoviesOrderNotFromSharedPreferences = bundle.getString(moviesOrderBundleKey, null);
+            }
         }
 
         @Override
@@ -248,12 +282,11 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         @Nullable
         @Override
         public List<Movie> loadInBackground() {
-            final int pageNum = 1;
-            URL discoverMoviesUrl = NetworkUtils.buildMoviesUrl(pageNum);
+            URL moviesUrl = NetworkUtils.buildMoviesUrl(mMoviesOrderNotFromSharedPreferences);
 
             ArrayList<Movie> moviesList = null;
             try {
-                String moviesJsonStr = NetworkUtils.getResponseFromHttpUrl(discoverMoviesUrl);
+                String moviesJsonStr = NetworkUtils.getResponseFromHttpUrl(moviesUrl);
                 moviesList = (ArrayList<Movie>) TheMoviesDbJsonUtils.extractMovieListFromJsonStr(moviesJsonStr);
             } catch (Exception ex) {
                 ex.printStackTrace();

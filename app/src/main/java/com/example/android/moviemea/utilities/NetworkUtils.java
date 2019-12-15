@@ -33,11 +33,19 @@ public class NetworkUtils {
     private static final String SORT_BY_PARAM_KEY = "sort_by";
 
 
-    public static URL buildMoviesUrl(int pageNum) {
+    public static URL buildMoviesUrl(String... moviesOrderNotFromSharedPreferences) {
         final String languageParamValue = AppSharedPreferences.read(AppSharedPreferences.LANGUAGE_PARAM_VALUE_PREF_KEY,
                 AppSharedPreferences.LANGUAGE_PARAM_VALUE_DEFAULT_VALUE);
-        final String moviesOrderPathParam = AppSharedPreferences.read(AppSharedPreferences.MOVIES_ORDER_PATH_PARAM_PREF_KEY,
-                AppSharedPreferences.MOVIES_ORDER_PATH_PARAM_DEFAULT_VALUE);
+        final String moviesOrderPathParam;
+
+        if (moviesOrderNotFromSharedPreferences == null || moviesOrderNotFromSharedPreferences.length == 0) {
+            moviesOrderPathParam = AppSharedPreferences.read(AppSharedPreferences.MOVIES_ORDER_PATH_PARAM_PREF_KEY,
+                    AppSharedPreferences.MOVIES_ORDER_PATH_PARAM_DEFAULT_VALUE);
+        } else {
+            moviesOrderPathParam = moviesOrderNotFromSharedPreferences[0];
+        }
+
+        final int pageNum = 1;
 
         Uri uri = Uri.parse(API_BASE_URL).buildUpon()
                 .appendPath(API_VERSION)
@@ -123,6 +131,10 @@ public class NetworkUtils {
         }
 
         return url;
+    }
+
+    public static URL buildTrailersUrl(int movieId) {
+        return null;
     }
 
     public static String getResponseFromHttpUrl(URL url) throws IOException {
