@@ -5,22 +5,27 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.design.widget.NavigationView;
-import android.support.v4.app.LoaderManager;
-import android.support.v4.content.AsyncTaskLoader;
-import android.support.v4.content.Loader;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.preference.PreferenceManager;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
+import com.google.android.material.navigation.NavigationView;
+
+import androidx.loader.app.LoaderManager;
+import androidx.loader.content.AsyncTaskLoader;
+import androidx.loader.content.Loader;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.preference.PreferenceManager;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.appcompat.widget.Toolbar;
+
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -37,12 +42,16 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+import static androidx.recyclerview.widget.DividerItemDecoration.HORIZONTAL;
+import static androidx.recyclerview.widget.DividerItemDecoration.VERTICAL;
+
 
 public class MainActivity extends AppCompatActivity implements MovieAdapter.MovieAdapterOnClickHandler,
         LoaderManager.LoaderCallbacks<List<Movie>>, OnSharedPreferenceChangeListener {
 
     private static final String LOG_TAG = MainActivity.class.getSimpleName();
     private static final int MOVIES_LOADER_ID = 100;
+    private static final int INTENT_EXTRA_MODE_FROM_MAIN = 1001;
 
     private DrawerLayout mDrawerLayout;
     private NavigationView mNavigationView;
@@ -68,6 +77,12 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         setupViews();
         initMoviesLoaderUponCreate();
         setupNavigationDrawerAndToolbar();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        updateCheckedNavMenuItem();
     }
 
     @Override
@@ -114,8 +129,8 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
                         break;
                     }
                     case (R.id.nav_favorites): {
-                        item.setChecked(true);
-                        // TODO get favorite movies
+                        Intent intent = new Intent(MainActivity.this, FavoritesActivity.class);
+                        startActivity(intent);
                         break;
                     }
                     case (R.id.nav_settings): {
@@ -142,6 +157,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
                 new GridLayoutManager(this, 2, LinearLayoutManager.VERTICAL, false);
         mRecyclerView.setLayoutManager(gridLayoutManager);
         mRecyclerView.setHasFixedSize(true);
+        mRecyclerView.addItemDecoration(new DividerItemDecoration(this, VERTICAL));
 
         mProgressBar = findViewById(R.id.main_progress_bar);
         mEmptyView = findViewById(R.id.main_empty_view);
@@ -179,7 +195,14 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     public void onClick(Movie movie) {
         Intent movieDetailIntent = new Intent(this, MovieDetailActivity.class);
         movieDetailIntent.putExtra("movieId", movie.getId());
+        movieDetailIntent.putExtra("mode", INTENT_EXTRA_MODE_FROM_MAIN);
         startActivity(movieDetailIntent);
+    }
+
+    @Override
+    public void onLongClick(Movie movie) {
+        // TODO: handle long click on main activity items
+        Toast.makeText(this, "Long click", Toast.LENGTH_SHORT).show();
     }
 
     /* Handle Options Menu Item Clicks */

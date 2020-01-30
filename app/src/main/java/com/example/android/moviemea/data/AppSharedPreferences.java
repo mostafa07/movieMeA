@@ -3,9 +3,10 @@ package com.example.android.moviemea.data;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
-import android.support.v7.preference.PreferenceManager;
+import androidx.preference.PreferenceManager;
 
 import com.example.android.moviemea.R;
+
 
 public class AppSharedPreferences {
 

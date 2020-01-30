@@ -133,10 +133,6 @@ public class NetworkUtils {
         return url;
     }
 
-    public static URL buildTrailersUrl(int movieId) {
-        return null;
-    }
-
     public static String getResponseFromHttpUrl(URL url) throws IOException {
         HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
         try {

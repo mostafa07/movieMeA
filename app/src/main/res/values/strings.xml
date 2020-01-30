@@ -43,4 +43,16 @@
     <string name="pref_movies_order_entry_upcoming" translatable="false">upcoming</string>
 
     <string name="movies_order_loader_bundle_key" transatable="false">moviesOrderLoaderBundleKey</string>
+
+    <string name="add_to_favorites">Add to Favorites</string>
+    <string name="share">Share</string>
+
+    <string name="added_movie_to_favorites">Added %1$s to Favorites</string>
+    <string name="deleted_movie_from_favorites">Deleted %1$s from Favorites</string>
+    <string name="delete_favorite_dialog_title">Delete %1$s from Favorites</string>
+
+    <string name="remove_from_favorites">Remove from Favorites</string>
+
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
 </resources>
