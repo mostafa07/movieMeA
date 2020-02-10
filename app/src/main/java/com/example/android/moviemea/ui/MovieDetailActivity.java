@@ -11,6 +11,9 @@ import androidx.loader.content.AsyncTaskLoader;
 import androidx.loader.content.Loader;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.ContextWrapper;
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -30,7 +33,11 @@ import com.example.android.moviemea.utilities.TheMoviesDbJsonUtils;
 import com.example.android.moviemea.viewmodels.MovieDetailViewModel;
 import com.example.android.moviemea.viewmodels.factories.MovieDetailViewModelFactory;
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.net.URL;
 
 
@@ -83,23 +90,32 @@ public class MovieDetailActivity extends AppCompatActivity implements LoaderMana
         super.onDestroy();
 
         if (!mIsInitiallyFavorited && mIsFavorited) {
+            final URL moviePosterFullUrl = NetworkUtils.buildImageUrl(mMovieDetail.getPosterPath());
+            // TODO: research a way to avoid re-loading image from the internet, and instead get
+            //  the one loaded into the image view
+            Picasso.get().load(moviePosterFullUrl.toString())
+                    .into(getImageDownloadTarget(mMovieDetail.getPosterPath()));
+
             AppExecutors.getInstance().diskIO().execute(new Runnable() {
                 @Override
                 public void run() {
-                    final FavoriteMovie favoriteMovieToDelete = new FavoriteMovie(mMovieDetail.getId(),
+                    final FavoriteMovie favoriteMovie = new FavoriteMovie(mMovieDetail.getId(),
                             mMovieDetail.getTitle(), mMovieDetail.getOverview(), mMovieDetail.getReleaseDate(),
                             mMovieDetail.getPosterPath(), mMovieDetail.getVoteAverage());
-                    mAppDatabase.favoriteMovieDao().insertFavorite(favoriteMovieToDelete);
+
+                    mAppDatabase.favoriteMovieDao().insertFavorite(favoriteMovie);
                 }
             });
         } else if (mIsInitiallyFavorited && !mIsFavorited) {
             AppExecutors.getInstance().diskIO().execute(new Runnable() {
                 @Override
                 public void run() {
-                    final FavoriteMovie favoriteMovieToDelete = new FavoriteMovie(mMovieDetail.getId(),
-                            mMovieDetail.getTitle(), mMovieDetail.getOverview(), mMovieDetail.getReleaseDate(),
-                            mMovieDetail.getPosterPath(), mMovieDetail.getVoteAverage());
-                    mAppDatabase.favoriteMovieDao().deleteFavorite(favoriteMovieToDelete);
+                    final File imageFilePath = new File(getApplicationContext().getFilesDir(),
+                            mMovieDetail.getPosterPath());
+                    if (imageFilePath.exists()) {
+                        imageFilePath.delete();
+                    }
+                    mAppDatabase.favoriteMovieDao().deleteFavoriteById(mMovieDetail.getId());
                 }
             });
         }
@@ -182,6 +198,36 @@ public class MovieDetailActivity extends AppCompatActivity implements LoaderMana
         mMovieOverviewTV.setText(mMovieDetail.getOverview());
     }
 
+    private Target getImageDownloadTarget(final String fileName) {
+        return new Target() {
+            @Override
+            public void onBitmapLoaded(final Bitmap bitmap, Picasso.LoadedFrom from) {
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            File file = new File(getApplicationContext().getFilesDir(), fileName);
+                            FileOutputStream fileOutputStream = new FileOutputStream(file);
+                            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fileOutputStream);
+                            fileOutputStream.flush();
+                            fileOutputStream.close();
+                        } catch (IOException ex) {
+                            ex.printStackTrace();
+                        }
+                    }
+                }).start();
+            }
+
+            @Override
+            public void onBitmapFailed(Exception e, Drawable errorDrawable) {
+            }
+
+            @Override
+            public void onPrepareLoad(Drawable placeHolderDrawable) {
+            }
+        };
+    }
+
     @NonNull
     @Override
     public Loader<MovieDetail> onCreateLoader(int i, @Nullable Bundle bundle) {
@@ -239,7 +285,7 @@ public class MovieDetailActivity extends AppCompatActivity implements LoaderMana
         @Nullable
         @Override
         public MovieDetail loadInBackground() {
-            URL movieDetailUrl = NetworkUtils.buildMovieDetailUrlById(mMovieId);
+            URL movieDetailUrl = NetworkUtils.buildMovieDetailUrl(mMovieId);
 
             MovieDetail movieDetail = null;
             try {

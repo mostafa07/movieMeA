@@ -48,6 +48,11 @@ public class TheMoviesDbJsonUtils {
     private static final String ISO_639_1 = "iso_639_1";
 
 
+    /* Constructor */
+    private TheMoviesDbJsonUtils() {
+    }
+
+
     /* Class Main Methods */
 
     public static List<Movie> extractMovieListFromJsonStr(String jsonStr) throws JSONException {
@@ -167,4 +172,6 @@ public class TheMoviesDbJsonUtils {
                 backdropPath, budget, revenue, popularity, voteAverage, voteCount, adult, video,
                 genres, productionCompanies, productionCountries, spokenLanguages);
     }
+
+
 }

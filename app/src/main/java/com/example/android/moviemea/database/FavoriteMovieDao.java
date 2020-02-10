@@ -32,4 +32,7 @@ public interface FavoriteMovieDao {
 
     @Query("DELETE FROM favorite_movie")
     void deleteAllFavorites();
+
+    @Query("DELETE FROM favorite_movie WHERE id = :id")
+    void deleteFavoriteById(int id);
 }

@@ -28,10 +28,21 @@ public class NetworkUtils {
     private static final String DISCOVER_PATH = "discover";
     private static final String TOP_RATED_PATH = "top_rated";
 
+    private static final String REVIEWS_PATH = "reviews";
+    private static final String VIDEOS_PATH = "videos";
+    private static final String SIMILAR_PATH = "similar";
+
     private static final String LANGUAGE_PARAM_KEY = "language";
     private static final String PAGE_PARAM_KEY = "page";
     private static final String SORT_BY_PARAM_KEY = "sort_by";
 
+
+    /* Constructor */
+    private NetworkUtils() {
+    }
+
+
+    /* Class Main Methods */
 
     public static URL buildMoviesUrl(String... moviesOrderNotFromSharedPreferences) {
         final String languageParamValue = AppSharedPreferences.read(AppSharedPreferences.LANGUAGE_PARAM_VALUE_PREF_KEY,
@@ -45,6 +56,7 @@ public class NetworkUtils {
             moviesOrderPathParam = moviesOrderNotFromSharedPreferences[0];
         }
 
+        // TODO: try to load more pages upon clicking something or reaching end of list and pagination
         final int pageNum = 1;
 
         Uri uri = Uri.parse(API_BASE_URL).buildUpon()
@@ -92,7 +104,7 @@ public class NetworkUtils {
         return url;
     }
 
-    public static URL buildMovieDetailUrlById(int movieId) {
+    public static URL buildMovieDetailUrl(int movieId) {
         final String languageParamValue = AppSharedPreferences.read(AppSharedPreferences.LANGUAGE_PARAM_VALUE_PREF_KEY,
                 AppSharedPreferences.LANGUAGE_PARAM_VALUE_DEFAULT_VALUE);
 
@@ -102,6 +114,83 @@ public class NetworkUtils {
                 .appendPath(Integer.toString(movieId))
                 .appendQueryParameter(API_KEY_PARAM, API_KEY_VALUE)
                 .appendQueryParameter(LANGUAGE_PARAM_KEY, languageParamValue)
+                .build();
+
+        URL url = null;
+        try {
+            url = new URL(uri.toString());
+        } catch (MalformedURLException ex) {
+            ex.printStackTrace();
+        }
+
+        return url;
+    }
+
+    public static URL buildMovieVideosUrl(int movieId) {
+        final String languageParamValue = AppSharedPreferences.read(AppSharedPreferences.LANGUAGE_PARAM_VALUE_PREF_KEY,
+                AppSharedPreferences.LANGUAGE_PARAM_VALUE_DEFAULT_VALUE);
+
+        Uri uri = Uri.parse(API_BASE_URL).buildUpon()
+                .appendPath(API_VERSION)
+                .appendPath(MOVIES_PATH)
+                .appendPath(Integer.toString(movieId))
+                .appendPath(VIDEOS_PATH)
+                .appendQueryParameter(API_KEY_PARAM, API_KEY_VALUE)
+                .appendQueryParameter(LANGUAGE_PARAM_KEY, languageParamValue)
+                .build();
+
+        URL url = null;
+        try {
+            url = new URL(uri.toString());
+        } catch (MalformedURLException ex) {
+            ex.printStackTrace();
+        }
+
+        return url;
+    }
+
+    public static URL buildMovieReviewsUrl(int movieId) {
+        final String languageParamValue = AppSharedPreferences.read(AppSharedPreferences.LANGUAGE_PARAM_VALUE_PREF_KEY,
+                AppSharedPreferences.LANGUAGE_PARAM_VALUE_DEFAULT_VALUE);
+
+        // TODO: try to load more pages upon clicking something or reaching end of list and pagination
+        final int pageNum = 1;
+
+        Uri uri = Uri.parse(API_BASE_URL).buildUpon()
+                .appendPath(API_VERSION)
+                .appendPath(MOVIES_PATH)
+                .appendPath(Integer.toString(movieId))
+                .appendPath(REVIEWS_PATH)
+                .appendQueryParameter(API_KEY_PARAM, API_KEY_VALUE)
+                .appendQueryParameter(LANGUAGE_PARAM_KEY, languageParamValue)
+                .appendQueryParameter(PAGE_PARAM_KEY, Integer.toString(pageNum))
+                .build();
+
+        URL url = null;
+        try {
+            url = new URL(uri.toString());
+        } catch (MalformedURLException ex) {
+            ex.printStackTrace();
+        }
+
+        return url;
+    }
+
+    public static URL buildSimilarMoviesUrl(int movieId) {
+        final String languageParamValue = AppSharedPreferences.read(AppSharedPreferences.LANGUAGE_PARAM_VALUE_PREF_KEY,
+                AppSharedPreferences.LANGUAGE_PARAM_VALUE_DEFAULT_VALUE);
+
+        // TODO: try to load more pages upon clicking something or reaching end of list and pagination
+        final int pageNum = 1;
+
+        Uri uri = Uri.parse(API_BASE_URL).buildUpon()
+                .appendPath(API_VERSION)
+                .appendPath(MOVIES_PATH)
+                .appendPath(Integer.toString(movieId))
+                .appendPath(SIMILAR_PATH)
+                .appendQueryParameter(API_KEY_PARAM, API_KEY_VALUE)
+                .appendQueryParameter(LANGUAGE_PARAM_KEY, languageParamValue)
+                .appendQueryParameter(PAGE_PARAM_KEY, Integer.toString(pageNum))
                 .build();
 
         URL url = null;

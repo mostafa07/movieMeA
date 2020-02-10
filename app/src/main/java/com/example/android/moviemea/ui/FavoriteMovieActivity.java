@@ -25,6 +25,7 @@ import com.example.android.moviemea.viewmodels.FavoriteMovieViewModel;
 import com.example.android.moviemea.viewmodels.factories.FavoriteMovieViewModelFactory;
 import com.squareup.picasso.Picasso;
 
+import java.io.File;
 import java.net.URL;
 
 
@@ -118,6 +119,12 @@ public class FavoriteMovieActivity extends AppCompatActivity {
                             AppExecutors.getInstance().diskIO().execute(new Runnable() {
                                 @Override
                                 public void run() {
+                                    final File imageFilePath = new File(getApplicationContext().getFilesDir(),
+                                            mFavoriteMovie.getPosterPath());
+                                    if (imageFilePath.exists()) {
+                                        imageFilePath.delete();
+                                    }
+
                                     mAppDatabase.favoriteMovieDao().deleteFavorite(mFavoriteMovie);
                                 }
                             });
@@ -141,11 +148,19 @@ public class FavoriteMovieActivity extends AppCompatActivity {
     }
 
     private void populateViews(FavoriteMovie favoriteMovie) {
-        // TODO: fetch image from local db and replace this part
-        URL moviePosterFullUrl = NetworkUtils.buildImageUrl(favoriteMovie.getPosterPath());
-        Picasso.get().load(moviePosterFullUrl.toString())
-                //.fit()
-                .into(mMoviePosterIV);
+        final File imageFile = new File(getApplicationContext().getFilesDir(), favoriteMovie.getPosterPath());
+        if (imageFile.exists()) {
+            // load image from internal storage path
+            Picasso.get().load(imageFile)
+                    //.fit()
+                    .into(mMoviePosterIV);
+        } else {
+            // load image from online API
+            URL moviePosterFullUrl = NetworkUtils.buildImageUrl(favoriteMovie.getPosterPath());
+            Picasso.get().load(moviePosterFullUrl.toString())
+                    //.fit()
+                    .into(mMoviePosterIV);
+        }
 
         mMovieVoteAverageTV.setBackgroundResource(R.drawable.circle);
 

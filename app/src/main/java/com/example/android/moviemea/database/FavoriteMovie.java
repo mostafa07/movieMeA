@@ -16,7 +16,7 @@ public class FavoriteMovie {
     @ColumnInfo(name = "release_date")
     private String releaseDate;
     @ColumnInfo(name = "poster_path")
-    private String posterPath;
+    private String posterPath;      // acts also as relative local image file path
     @ColumnInfo(name = "vote_average")
     private Double voteAverage;
 
@@ -86,6 +86,7 @@ public class FavoriteMovie {
     public void setVoteAverage(Double voteAverage) {
         this.voteAverage = voteAverage;
     }
+
 
     @Override
     public String toString() {

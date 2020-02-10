@@ -40,7 +40,7 @@ public class Movie {
     }
 
 
-    /* Getters and Setters*/
+    /* Getters and Setters */
 
     public Integer getId() {
         return id;
