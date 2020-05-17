@@ -4,6 +4,7 @@ import android.content.Context;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.loader.app.LoaderManager;
@@ -11,7 +12,6 @@ import androidx.loader.content.AsyncTaskLoader;
 import androidx.loader.content.Loader;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.ContextWrapper;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -27,6 +27,7 @@ import com.example.android.moviemea.R;
 import com.example.android.moviemea.database.AppDatabase;
 import com.example.android.moviemea.database.FavoriteMovie;
 import com.example.android.moviemea.executors.AppExecutors;
+import com.example.android.moviemea.fragments.UserReviewsFragment;
 import com.example.android.moviemea.models.MovieDetail;
 import com.example.android.moviemea.utilities.NetworkUtils;
 import com.example.android.moviemea.utilities.TheMoviesDbJsonUtils;
@@ -75,6 +76,8 @@ public class MovieDetailActivity extends AppCompatActivity implements LoaderMana
             Bundle loaderBundle = new Bundle();
             loaderBundle.putInt(LOADER_BUNDLE_MOVIE_ID_KEY, movieId);
             getSupportLoaderManager().initLoader(MOVIE_DETAIL_LOADER_ID, loaderBundle, MovieDetailActivity.this);
+
+            displayUserReviewsFragment(movieId);
 
             setupViewModel(movieId);
         } else {
@@ -153,6 +156,13 @@ public class MovieDetailActivity extends AppCompatActivity implements LoaderMana
                 invalidateOptionsMenu();
             }
         });
+    }
+
+    private void displayUserReviewsFragment(int movieId) {
+        UserReviewsFragment userReviewsFragment = UserReviewsFragment.newInstance(movieId);
+
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.add(R.id.movie_detail_reviews_fragment_container, userReviewsFragment).commit();
     }
 
     @Override
@@ -234,6 +244,7 @@ public class MovieDetailActivity extends AppCompatActivity implements LoaderMana
         mProgressBar.setVisibility(View.VISIBLE);
         mEmptyViewTV.setVisibility(View.INVISIBLE);
 
+        // TODO: make it pass bundle directly
         final String LOADER_BUNDLE_MOVIE_ID_KEY = "movieId";
         final int movieId = bundle.getInt(LOADER_BUNDLE_MOVIE_ID_KEY, -1);
         return new MovieDetailAsyncTaskLoader(MovieDetailActivity.this, movieId);

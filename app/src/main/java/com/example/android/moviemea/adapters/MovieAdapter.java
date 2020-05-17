@@ -25,20 +25,18 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
     private List<Movie> mMoviesList;
     private final MovieAdapterOnClickHandler mClickHandler;
 
-
     /* Constructor */
     public MovieAdapter(MovieAdapterOnClickHandler clickHandler) {
         mClickHandler = clickHandler;
     }
 
-
     /* On Click Handler */
     public interface MovieAdapterOnClickHandler {
+
         void onClick(Movie movie);
 
         void onLongClick(Movie movie);
     }
-
 
     /* Helper Method to Update Movies Data */
     public void setMoviesData(List<Movie> moviesList) {
@@ -52,7 +50,6 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
             mMoviesList.clear();
         notifyDataSetChanged();
     }
-
 
     /* Adapter Overridden Methods */
 
@@ -83,7 +80,6 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
         return mMoviesList.size();
     }
 
-
     /* View Holder Class */
 
     class MovieViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
@@ -108,7 +104,6 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
             Movie movie = mMoviesList.get(getAdapterPosition());
             mClickHandler.onClick(movie);
         }
-
 
         @Override
         public boolean onLongClick(View v) {

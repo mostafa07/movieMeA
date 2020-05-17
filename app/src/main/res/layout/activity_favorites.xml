@@ -11,5 +11,7 @@
         android:id="@+id/favorite_movies_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layoutAnimation="@anim/layout_animation_fall_down"
         android:scrollbars="vertical" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

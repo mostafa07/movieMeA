@@ -1,6 +1,6 @@
 package com.example.android.moviemea.models;
 
-import java.util.ArrayList;
+import java.util.List;
 
 
 public class Movie {
@@ -18,7 +18,7 @@ public class Movie {
     // private Integer voteCount;
     // private Boolean adult;
     // private Boolean video;
-    private ArrayList<Integer> genreIds;
+    private List<Integer> genreIds;
 
 
     /* Constructors */
@@ -27,7 +27,7 @@ public class Movie {
     }
 
     public Movie(Integer id, String title, String overview, String releaseDate, String posterPath,
-                 String backdropPath, Double popularity, Double voteAverage, ArrayList<Integer> genreIds) {
+                 String backdropPath, Double popularity, Double voteAverage, List<Integer> genreIds) {
         this.id = id;
         this.title = title;
         this.overview = overview;
@@ -106,11 +106,11 @@ public class Movie {
         this.voteAverage = voteAverage;
     }
 
-    public ArrayList<Integer> getGenreIds() {
+    public List<Integer> getGenreIds() {
         return genreIds;
     }
 
-    public void setGenreIds(ArrayList<Integer> genreIds) {
+    public void setGenreIds(List<Integer> genreIds) {
         this.genreIds = genreIds;
     }
 

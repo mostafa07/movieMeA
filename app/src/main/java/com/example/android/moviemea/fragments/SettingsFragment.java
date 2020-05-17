@@ -1,4 +1,4 @@
-package com.example.android.moviemea.ui;
+package com.example.android.moviemea.fragments;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;

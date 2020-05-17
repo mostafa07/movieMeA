@@ -5,6 +5,8 @@ import java.util.List;
 
 import com.example.android.moviemea.models.Movie;
 import com.example.android.moviemea.models.MovieDetail;
+import com.example.android.moviemea.models.Review;
+import com.example.android.moviemea.models.Video;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -47,47 +49,56 @@ public class TheMoviesDbJsonUtils {
     private static final String ISO_3166_1 = "iso_3166_1";
     private static final String ISO_639_1 = "iso_639_1";
 
+    private static final String AUTHOR = "author";
+    private static final String CONTENT = "content";
+    private static final String URL = "url";
+
+    private static final String KEY = "key";
+    private static final String SITE = "site";
+    private static final String SIZE = "size";
+    private static final String TYPE = "type";
+
 
     /* Constructor */
     private TheMoviesDbJsonUtils() {
     }
 
-
     /* Class Main Methods */
 
-    public static List<Movie> extractMovieListFromJsonStr(String jsonStr) throws JSONException {
+    public static List<Movie> extractMovieListFromJsonStr(final String jsonStr) throws JSONException {
 
         if (jsonStr.isEmpty())
             return null;
 
-        JSONObject jsonObj = new JSONObject(jsonStr);
+        final JSONObject jsonObj = new JSONObject(jsonStr);
         if (!jsonObj.has(RESULTS))
             return null;
 
-        ArrayList<Movie> extractedMovieList = new ArrayList<>();
-        JSONArray resultsArray = jsonObj.getJSONArray(RESULTS);
+        List<Movie> extractedMovieList = new ArrayList<>();
+        final JSONArray resultsArray = jsonObj.getJSONArray(RESULTS);
 
-        int len = resultsArray.length();
+        final int len = resultsArray.length();
         for (int i = 0; i < len; ++i) {
-            JSONObject resultItem = resultsArray.getJSONObject(i);
+            final JSONObject resultItem = resultsArray.getJSONObject(i);
 
-            Integer id = resultItem.getInt(ID);
-            String title = resultItem.getString(TITLE);
-            // String originalTitle = resultItem.getString(ORIGINAL_TITLE);
-            // String originalLanguage = resultItem.getString(ORIGINAL_LANGUAGE);
-            String overview = resultItem.getString(OVERVIEW);
-            String releaseDate = resultItem.getString(RELEASE_DATE);
-            String posterPath = resultItem.getString(POSTER_PATH);
-            String backdropPath = resultItem.getString(BACKDROP_PATH);
-            Double popularity = resultItem.getDouble(POPULARITY);
-            Double voteAverage = resultItem.getDouble(VOTE_AVERAGE);
-            // Integer voteCount = resultItem.getInt(VOTE_COUNT);
-            // Boolean adult = resultItem.getBoolean(ADULT);
-            // Boolean video = resultItem.getBoolean(VIDEO);
-            JSONArray genreIdsJsonArray = resultItem.getJSONArray(GENRE_IDS);
+            final Integer id = resultItem.getInt(ID);
+            final String title = resultItem.getString(TITLE);
+            // final String originalTitle = resultItem.getString(ORIGINAL_TITLE);
+            // final String originalLanguage = resultItem.getString(ORIGINAL_LANGUAGE);
+            final String overview = resultItem.getString(OVERVIEW);
+            final String releaseDate = resultItem.getString(RELEASE_DATE);
+            final String posterPath = resultItem.getString(POSTER_PATH);
+            final String backdropPath = resultItem.getString(BACKDROP_PATH);
+            final Double popularity = resultItem.getDouble(POPULARITY);
+            final Double voteAverage = resultItem.getDouble(VOTE_AVERAGE);
+            // final Integer voteCount = resultItem.getInt(VOTE_COUNT);
+            // final Boolean adult = resultItem.getBoolean(ADULT);
+            // final Boolean video = resultItem.getBoolean(VIDEO);
+            final JSONArray genreIdsJsonArray = resultItem.getJSONArray(GENRE_IDS);
+            final int genreIdsLen = genreIdsJsonArray.length();
 
-            ArrayList<Integer> genreIds = new ArrayList<>();
-            for (int k = 0; k < genreIdsJsonArray.length(); ++k)
+            List<Integer> genreIds = new ArrayList<>();
+            for (int k = 0; k < genreIdsLen; ++k)
                 genreIds.add(genreIdsJsonArray.getInt(k));
 
             extractedMovieList.add(new Movie(id, title, overview, releaseDate, posterPath, backdropPath,
@@ -97,73 +108,77 @@ public class TheMoviesDbJsonUtils {
         return extractedMovieList;
     }
 
-    public static MovieDetail extractMovieDetailFromJsonStr(String jsonStr) throws JSONException {
+    public static MovieDetail extractMovieDetailFromJsonStr(final String jsonStr) throws JSONException {
 
         if (jsonStr.isEmpty())
             return null;
 
-        JSONObject jsonObj = new JSONObject(jsonStr);
+        final JSONObject jsonObj = new JSONObject(jsonStr);
 
-        Integer id = jsonObj.getInt(ID);
-        String imdbId = jsonObj.has(IMDB_ID) && !jsonObj.isNull(IMDB_ID) ? jsonObj.getString(IMDB_ID) : null;
-        String title = jsonObj.getString(TITLE);
-        String originalTitle = jsonObj.getString(ORIGINAL_TITLE);
-        String originalLanguage = jsonObj.getString(ORIGINAL_LANGUAGE);
-        String overview = jsonObj.getString(OVERVIEW);
-        String tagline = jsonObj.has(TAGLINE) && !jsonObj.isNull(TAGLINE) ? jsonObj.getString(TAGLINE) : null;
-        String status = jsonObj.getString(STATUS);
-        String releaseDate = jsonObj.getString(RELEASE_DATE);
-        Integer runtime = jsonObj.has(RUNTIME) && !jsonObj.isNull(RUNTIME) ? jsonObj.getInt(RUNTIME) : null;
-        String belongsToCollection = jsonObj.has(BELONGS_TO_COLLECTION) && !jsonObj.isNull(BELONGS_TO_COLLECTION) ?
+        final Integer id = jsonObj.getInt(ID);
+        final String imdbId = jsonObj.has(IMDB_ID) && !jsonObj.isNull(IMDB_ID) ? jsonObj.getString(IMDB_ID) : null;
+        final String title = jsonObj.getString(TITLE);
+        final String originalTitle = jsonObj.getString(ORIGINAL_TITLE);
+        final String originalLanguage = jsonObj.getString(ORIGINAL_LANGUAGE);
+        final String overview = jsonObj.getString(OVERVIEW);
+        final String tagline = jsonObj.has(TAGLINE) && !jsonObj.isNull(TAGLINE) ? jsonObj.getString(TAGLINE) : null;
+        final String status = jsonObj.getString(STATUS);
+        final String releaseDate = jsonObj.getString(RELEASE_DATE);
+        final Integer runtime = jsonObj.has(RUNTIME) && !jsonObj.isNull(RUNTIME) ? jsonObj.getInt(RUNTIME) : null;
+        final String belongsToCollection = jsonObj.has(BELONGS_TO_COLLECTION) && !jsonObj.isNull(BELONGS_TO_COLLECTION) ?
                 jsonObj.getString(BELONGS_TO_COLLECTION) : null;
-        String homepage = jsonObj.has(HOMEPAGE) && !jsonObj.isNull(HOMEPAGE) ? jsonObj.getString(HOMEPAGE) : null;
-        String posterPath = jsonObj.has(POSTER_PATH) && !jsonObj.isNull(POSTER_PATH) ? jsonObj.getString(POSTER_PATH) : null;
-        String backdropPath = jsonObj.has(BACKDROP_PATH) && !jsonObj.isNull(BACKDROP_PATH) ? jsonObj.getString(BACKDROP_PATH) : null;
-        Integer budget = jsonObj.getInt(BUDGET);
-        Integer revenue = jsonObj.getInt(REVENUE);
-        Double popularity = jsonObj.getDouble(POPULARITY);
-        Double voteAverage = jsonObj.getDouble(VOTE_AVERAGE);
-        Integer voteCount = jsonObj.getInt(VOTE_COUNT);
-        Boolean adult = jsonObj.getBoolean(ADULT);
-        Boolean video = jsonObj.getBoolean(VIDEO);
+        final String homepage = jsonObj.has(HOMEPAGE) && !jsonObj.isNull(HOMEPAGE) ? jsonObj.getString(HOMEPAGE) : null;
+        final String posterPath = jsonObj.has(POSTER_PATH) && !jsonObj.isNull(POSTER_PATH) ? jsonObj.getString(POSTER_PATH) : null;
+        final String backdropPath = jsonObj.has(BACKDROP_PATH) && !jsonObj.isNull(BACKDROP_PATH) ? jsonObj.getString(BACKDROP_PATH) : null;
+        final Integer budget = jsonObj.getInt(BUDGET);
+        final Integer revenue = jsonObj.getInt(REVENUE);
+        final Double popularity = jsonObj.getDouble(POPULARITY);
+        final Double voteAverage = jsonObj.getDouble(VOTE_AVERAGE);
+        final Integer voteCount = jsonObj.getInt(VOTE_COUNT);
+        final Boolean adult = jsonObj.getBoolean(ADULT);
+        final Boolean video = jsonObj.getBoolean(VIDEO);
 
-        JSONArray genresJsonArray = jsonObj.getJSONArray(GENRES);
-        ArrayList<MovieDetail.Genre> genres = new ArrayList<>();
-        for (int i = 0; i < genresJsonArray.length(); ++i) {
-            JSONObject genreItem = genresJsonArray.getJSONObject(i);
-            Integer genreId = genreItem.getInt(ID);
-            String genreName = genreItem.getString(NAME);
+        final JSONArray genresJsonArray = jsonObj.getJSONArray(GENRES);
+        final int genresJsonArrayLen = genresJsonArray.length();
+        List<MovieDetail.Genre> genres = new ArrayList<>();
+        for (int i = 0; i < genresJsonArrayLen; ++i) {
+            final JSONObject genreItem = genresJsonArray.getJSONObject(i);
+            final Integer genreId = genreItem.getInt(ID);
+            final String genreName = genreItem.getString(NAME);
             genres.add(new MovieDetail.Genre(genreId, genreName));
         }
 
-        JSONArray productionCompaniesJsonArray = jsonObj.getJSONArray(PRODUCTION_COMPANIES);
-        ArrayList<MovieDetail.ProductionCompany> productionCompanies = new ArrayList<>();
-        for (int i = 0; i < productionCompaniesJsonArray.length(); ++i) {
-            JSONObject productionCompanyItem = productionCompaniesJsonArray.getJSONObject(i);
-            Integer productionCompanyId = productionCompanyItem.getInt(ID);
-            String productionCompanyName = productionCompanyItem.getString(NAME);
-            String productionCompanyLogoPath = jsonObj.has(LOGO_PATH) && !jsonObj.isNull(LOGO_PATH) ?
+        final JSONArray productionCompaniesJsonArray = jsonObj.getJSONArray(PRODUCTION_COMPANIES);
+        final int productionCompaniesJsonArrayLen = productionCompaniesJsonArray.length();
+        List<MovieDetail.ProductionCompany> productionCompanies = new ArrayList<>();
+        for (int i = 0; i < productionCompaniesJsonArrayLen; ++i) {
+            final JSONObject productionCompanyItem = productionCompaniesJsonArray.getJSONObject(i);
+            final Integer productionCompanyId = productionCompanyItem.getInt(ID);
+            final String productionCompanyName = productionCompanyItem.getString(NAME);
+            final String productionCompanyLogoPath = jsonObj.has(LOGO_PATH) && !jsonObj.isNull(LOGO_PATH) ?
                     jsonObj.getString(LOGO_PATH) : null;
-            String productionCompanyOriginCountry = productionCompanyItem.getString(ORIGIN_COUNTRY);
+            final String productionCompanyOriginCountry = productionCompanyItem.getString(ORIGIN_COUNTRY);
             productionCompanies.add(new MovieDetail.ProductionCompany(productionCompanyId, productionCompanyName,
                     productionCompanyLogoPath, productionCompanyOriginCountry));
         }
 
-        JSONArray productionCountriesJsonArray = jsonObj.getJSONArray(PRODUCTION_COUNTRIES);
-        ArrayList<MovieDetail.ProductionCountry> productionCountries = new ArrayList<>();
-        for (int i = 0; i < productionCountriesJsonArray.length(); ++i) {
-            JSONObject productionCountryItem = productionCountriesJsonArray.getJSONObject(i);
-            String isoCode = productionCountryItem.getString(ISO_3166_1);
-            String productionCountryName = productionCountryItem.getString(NAME);
+        final JSONArray productionCountriesJsonArray = jsonObj.getJSONArray(PRODUCTION_COUNTRIES);
+        final int productionCountriesJsonArrayLen = productionCountriesJsonArray.length();
+        List<MovieDetail.ProductionCountry> productionCountries = new ArrayList<>();
+        for (int i = 0; i < productionCountriesJsonArrayLen; ++i) {
+            final JSONObject productionCountryItem = productionCountriesJsonArray.getJSONObject(i);
+            final String isoCode = productionCountryItem.getString(ISO_3166_1);
+            final String productionCountryName = productionCountryItem.getString(NAME);
             productionCountries.add(new MovieDetail.ProductionCountry(isoCode, productionCountryName));
         }
 
-        JSONArray spokenLanguagesJsonArray = jsonObj.getJSONArray(SPOKEN_LANGUAGES);
-        ArrayList<MovieDetail.SpokenLanguage> spokenLanguages = new ArrayList<>();
-        for (int i = 0; i < spokenLanguagesJsonArray.length(); ++i) {
-            JSONObject spokenLanguageItem = spokenLanguagesJsonArray.getJSONObject(i);
-            String isoCode = spokenLanguageItem.getString(ISO_639_1);
-            String spokenLanguageName = spokenLanguageItem.getString(NAME);
+        final JSONArray spokenLanguagesJsonArray = jsonObj.getJSONArray(SPOKEN_LANGUAGES);
+        final int spokenLanguagesJsonArrayLen = spokenLanguagesJsonArray.length();
+        List<MovieDetail.SpokenLanguage> spokenLanguages = new ArrayList<>();
+        for (int i = 0; i < spokenLanguagesJsonArrayLen; ++i) {
+            final JSONObject spokenLanguageItem = spokenLanguagesJsonArray.getJSONObject(i);
+            final String isoCode = spokenLanguageItem.getString(ISO_639_1);
+            final String spokenLanguageName = spokenLanguageItem.getString(NAME);
             spokenLanguages.add(new MovieDetail.SpokenLanguage(isoCode, spokenLanguageName));
         }
 
@@ -173,5 +188,59 @@ public class TheMoviesDbJsonUtils {
                 genres, productionCompanies, productionCountries, spokenLanguages);
     }
 
+    public static List<Review> extractReviewsListFromJsonStr(final String jsonStr) throws JSONException {
 
+        if (jsonStr.isEmpty())
+            return null;
+
+        final JSONObject jsonObj = new JSONObject(jsonStr);
+        if (!jsonObj.has(RESULTS))
+            return null;
+
+        List<Review> extractedReviewList = new ArrayList<>();
+        final JSONArray resultsArray = jsonObj.getJSONArray(RESULTS);
+
+        final int len = resultsArray.length();
+        for (int i = 0; i < len; ++i) {
+            final JSONObject resultItem = resultsArray.getJSONObject(i);
+
+            final String id = resultItem.getString(ID);
+            final String author = resultItem.getString(AUTHOR);
+            final String content = resultItem.getString(CONTENT);
+            final String url = resultItem.getString(URL);
+
+            extractedReviewList.add(new Review(id, author, content, url));
+        }
+
+        return extractedReviewList;
+    }
+
+    public static List<Video> extractVideosListFromJsonStr(final String jsonStr) throws JSONException {
+
+        if (jsonStr.isEmpty())
+            return null;
+
+        final JSONObject jsonObj = new JSONObject(jsonStr);
+        if (!jsonObj.has(RESULTS))
+            return null;
+
+        List<Video> extractedVideoList = new ArrayList<>();
+        final JSONArray resultsArray = jsonObj.getJSONArray(RESULTS);
+
+        final int len = resultsArray.length();
+        for (int i = 0; i < len; ++i) {
+            final JSONObject resultItem = resultsArray.getJSONObject(i);
+
+            final String id = resultItem.getString(ID);
+            final String key = resultItem.getString(KEY);
+            final String name = resultItem.getString(NAME);
+            final String site = resultItem.getString(SITE);
+            final Integer size = resultItem.getInt(SIZE);
+            final String type = resultItem.getString(TYPE);
+
+            extractedVideoList.add(new Video(id, key, name, site, size, type));
+        }
+
+        return extractedVideoList;
+    }
 }

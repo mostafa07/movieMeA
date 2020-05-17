@@ -1,6 +1,6 @@
 package com.example.android.moviemea.models;
 
-import java.util.ArrayList;
+import java.util.List;
 
 
 public class MovieDetail {
@@ -26,10 +26,10 @@ public class MovieDetail {
     private Integer voteCount;
     private Boolean adult;
     private Boolean video;
-    private ArrayList<Genre> genres;
-    private ArrayList<ProductionCompany> productionCompanies;
-    private ArrayList<ProductionCountry> productionCountries;
-    private ArrayList<SpokenLanguage> spokenLanguages;
+    private List<Genre> genres;
+    private List<ProductionCompany> productionCompanies;
+    private List<ProductionCountry> productionCountries;
+    private List<SpokenLanguage> spokenLanguages;
 
 
     /* Constructors */
@@ -41,9 +41,9 @@ public class MovieDetail {
                        String overview, String tagline, String status, String releaseDate, Integer runtime,
                        String belongsToCollection, String homepage, String posterPath, String backdropPath,
                        Integer budget, Integer revenue, Double popularity, Double voteAverage,
-                       Integer voteCount, Boolean adult, Boolean video, ArrayList<Genre> genres,
-                       ArrayList<ProductionCompany> productionCompanies, ArrayList<ProductionCountry> productionCountries,
-                       ArrayList<SpokenLanguage> spokenLanguages) {
+                       Integer voteCount, Boolean adult, Boolean video, List<Genre> genres,
+                       List<ProductionCompany> productionCompanies, List<ProductionCountry> productionCountries,
+                       List<SpokenLanguage> spokenLanguages) {
         this.id = id;
         this.imdbId = imdbId;
         this.title = title;
@@ -242,35 +242,35 @@ public class MovieDetail {
         this.video = video;
     }
 
-    public ArrayList<Genre> getGenres() {
+    public List<Genre> getGenres() {
         return genres;
     }
 
-    public void setGenres(ArrayList<Genre> genres) {
+    public void setGenres(List<Genre> genres) {
         this.genres = genres;
     }
 
-    public ArrayList<ProductionCompany> getProductionCompanies() {
+    public List<ProductionCompany> getProductionCompanies() {
         return productionCompanies;
     }
 
-    public void setProductionCompanies(ArrayList<ProductionCompany> productionCompanies) {
+    public void setProductionCompanies(List<ProductionCompany> productionCompanies) {
         this.productionCompanies = productionCompanies;
     }
 
-    public ArrayList<ProductionCountry> getProductionCountries() {
+    public List<ProductionCountry> getProductionCountries() {
         return productionCountries;
     }
 
-    public void setProductionCountries(ArrayList<ProductionCountry> productionCountries) {
+    public void setProductionCountries(List<ProductionCountry> productionCountries) {
         this.productionCountries = productionCountries;
     }
 
-    public ArrayList<SpokenLanguage> getSpokenLanguages() {
+    public List<SpokenLanguage> getSpokenLanguages() {
         return spokenLanguages;
     }
 
-    public void setSpokenLanguages(ArrayList<SpokenLanguage> spokenLanguages) {
+    public void setSpokenLanguages(List<SpokenLanguage> spokenLanguages) {
         this.spokenLanguages = spokenLanguages;
     }
 

@@ -27,8 +27,6 @@ import com.example.android.moviemea.viewmodels.FavoritesViewModel;
 
 import java.util.List;
 
-import static androidx.recyclerview.widget.DividerItemDecoration.VERTICAL;
-
 
 public class FavoritesActivity extends AppCompatActivity implements FavoriteMovieAdapter.FavoriteMovieOnClickHandler {
 
@@ -55,7 +53,8 @@ public class FavoritesActivity extends AppCompatActivity implements FavoriteMovi
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this,
                 LinearLayoutManager.VERTICAL, false));
         mRecyclerView.setHasFixedSize(true);
-        mRecyclerView.addItemDecoration(new DividerItemDecoration(this, VERTICAL));
+
+        mRecyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
 
         new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
             @Override
@@ -77,6 +76,7 @@ public class FavoritesActivity extends AppCompatActivity implements FavoriteMovi
             @Override
             public void onChanged(List<FavoriteMovie> favoriteMovies) {
                 mAdapter.setFavoriteMoviesData(favoriteMovies);
+                mRecyclerView.scheduleLayoutAnimation();
             }
         });
     }

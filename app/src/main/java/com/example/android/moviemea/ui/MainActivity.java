@@ -39,11 +39,7 @@ import com.example.android.moviemea.utilities.NetworkUtils;
 import com.example.android.moviemea.utilities.TheMoviesDbJsonUtils;
 
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.List;
-
-import static androidx.recyclerview.widget.DividerItemDecoration.HORIZONTAL;
-import static androidx.recyclerview.widget.DividerItemDecoration.VERTICAL;
 
 
 public class MainActivity extends AppCompatActivity implements MovieAdapter.MovieAdapterOnClickHandler,
@@ -60,7 +56,6 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     private ProgressBar mProgressBar;
     private View mEmptyView;
     private SwipeRefreshLayout mRefreshLayout;
-
     private LoaderManager mLoaderManager;
 
     private String mCurrentMoviesOrderPrefValue;
@@ -157,7 +152,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
                 new GridLayoutManager(this, 2, LinearLayoutManager.VERTICAL, false);
         mRecyclerView.setLayoutManager(gridLayoutManager);
         mRecyclerView.setHasFixedSize(true);
-        mRecyclerView.addItemDecoration(new DividerItemDecoration(this, VERTICAL));
+        mRecyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
 
         mProgressBar = findViewById(R.id.main_progress_bar);
         mEmptyView = findViewById(R.id.main_empty_view);
@@ -231,6 +226,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
 
         if (movies != null) {
             mAdapter.setMoviesData(movies);
+            mRecyclerView.scheduleLayoutAnimation();
         } else {
             Toast.makeText(MainActivity.this, getString(R.string.error_no_data_found),
                     Toast.LENGTH_LONG).show();
@@ -296,6 +292,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         @Override
         protected void onStartLoading() {
             if (mData != null) {
+                // Use cached data
                 deliverResult(mData);
             } else {
                 forceLoad();
@@ -307,10 +304,10 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         public List<Movie> loadInBackground() {
             URL moviesUrl = NetworkUtils.buildMoviesUrl(mMoviesOrderNotFromSharedPreferences);
 
-            ArrayList<Movie> moviesList = null;
+            List<Movie> moviesList = null;
             try {
-                String moviesJsonStr = NetworkUtils.getResponseFromHttpUrl(moviesUrl);
-                moviesList = (ArrayList<Movie>) TheMoviesDbJsonUtils.extractMovieListFromJsonStr(moviesJsonStr);
+                final String moviesJsonStr = NetworkUtils.getResponseFromHttpUrl(moviesUrl);
+                moviesList = TheMoviesDbJsonUtils.extractMovieListFromJsonStr(moviesJsonStr);
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
