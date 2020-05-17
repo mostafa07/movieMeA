@@ -1,4 +1,4 @@
-package com.example.android.moviemea.adapters;
+package com.example.android.moviemea.ui.adapters;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,7 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.android.moviemea.R;
-import com.example.android.moviemea.models.Review;
+import com.example.android.moviemea.models.remote.Review;
 
 import java.util.ArrayList;
 import java.util.List;

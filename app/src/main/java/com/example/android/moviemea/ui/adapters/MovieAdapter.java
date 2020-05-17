@@ -1,4 +1,4 @@
-package com.example.android.moviemea.adapters;
+package com.example.android.moviemea.ui.adapters;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.example.android.moviemea.R;
-import com.example.android.moviemea.models.Movie;
+import com.example.android.moviemea.models.remote.Movie;
 import com.example.android.moviemea.utilities.NetworkUtils;
 import com.squareup.picasso.Picasso;
 

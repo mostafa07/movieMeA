@@ -1,4 +1,4 @@
-package com.example.android.moviemea.fragments;
+package com.example.android.moviemea.ui.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -18,8 +18,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.android.moviemea.R;
-import com.example.android.moviemea.adapters.UserReviewAdapter;
-import com.example.android.moviemea.models.Review;
+import com.example.android.moviemea.ui.adapters.UserReviewAdapter;
+import com.example.android.moviemea.models.remote.Review;
 import com.example.android.moviemea.utilities.NetworkUtils;
 import com.example.android.moviemea.utilities.TheMoviesDbJsonUtils;
 

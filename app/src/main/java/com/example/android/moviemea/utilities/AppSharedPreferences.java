@@ -1,4 +1,4 @@
-package com.example.android.moviemea.data;
+package com.example.android.moviemea.utilities;
 
 import android.content.Context;
 import android.content.SharedPreferences;

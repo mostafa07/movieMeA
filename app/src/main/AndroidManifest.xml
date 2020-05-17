@@ -13,10 +13,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".ui.FavoriteMovieActivity"></activity>
-        <activity android:name=".ui.FavoritesActivity" />
+
         <activity
-            android:name=".ui.MainActivity"
+            android:name=".ui.activities.MainActivity"
             android:launchMode="singleTop"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
             <intent-filter>
@@ -25,10 +24,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.MovieDetailActivity" />
+        <activity android:name=".ui.activities.MovieDetailActivity" />
+        <activity android:name=".ui.activities.FavoritesActivity" />
+        <activity android:name=".ui.activities.FavoriteMovieActivity" />
         <activity
-            android:name=".ui.SettingsActivity"
-            android:parentActivityName=".ui.MainActivity" />
+            android:name=".ui.activities.SettingsActivity"
+            android:parentActivityName=".ui.activities.MainActivity" />
     </application>
 
 </manifest>

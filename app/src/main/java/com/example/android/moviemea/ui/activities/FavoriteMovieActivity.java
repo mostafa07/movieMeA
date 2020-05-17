@@ -1,4 +1,4 @@
-package com.example.android.moviemea.ui;
+package com.example.android.moviemea.ui.activities;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,10 +16,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.android.moviemea.R;
-import com.example.android.moviemea.database.AppDatabase;
-import com.example.android.moviemea.database.FavoriteMovie;
+import com.example.android.moviemea.data.AppDatabase;
+import com.example.android.moviemea.models.local.FavoriteMovie;
 import com.example.android.moviemea.executors.AppExecutors;
-import com.example.android.moviemea.models.MovieDetail;
+import com.example.android.moviemea.models.remote.MovieDetail;
 import com.example.android.moviemea.utilities.NetworkUtils;
 import com.example.android.moviemea.viewmodels.FavoriteMovieViewModel;
 import com.example.android.moviemea.viewmodels.factories.FavoriteMovieViewModelFactory;

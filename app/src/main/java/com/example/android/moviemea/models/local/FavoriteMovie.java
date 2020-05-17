@@ -1,4 +1,4 @@
-package com.example.android.moviemea.database;
+package com.example.android.moviemea.models.local;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;

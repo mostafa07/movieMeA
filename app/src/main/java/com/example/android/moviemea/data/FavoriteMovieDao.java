@@ -1,4 +1,4 @@
-package com.example.android.moviemea.database;
+package com.example.android.moviemea.data;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
@@ -7,6 +7,8 @@ import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Update;
+
+import com.example.android.moviemea.models.local.FavoriteMovie;
 
 import java.util.List;
 

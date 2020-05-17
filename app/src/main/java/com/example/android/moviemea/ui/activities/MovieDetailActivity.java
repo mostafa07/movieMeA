@@ -1,4 +1,4 @@
-package com.example.android.moviemea.ui;
+package com.example.android.moviemea.ui.activities;
 
 import android.content.Context;
 
@@ -24,11 +24,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.android.moviemea.R;
-import com.example.android.moviemea.database.AppDatabase;
-import com.example.android.moviemea.database.FavoriteMovie;
+import com.example.android.moviemea.data.AppDatabase;
+import com.example.android.moviemea.models.local.FavoriteMovie;
 import com.example.android.moviemea.executors.AppExecutors;
-import com.example.android.moviemea.fragments.UserReviewsFragment;
-import com.example.android.moviemea.models.MovieDetail;
+import com.example.android.moviemea.ui.fragments.UserReviewsFragment;
+import com.example.android.moviemea.models.remote.MovieDetail;
 import com.example.android.moviemea.utilities.NetworkUtils;
 import com.example.android.moviemea.utilities.TheMoviesDbJsonUtils;
 import com.example.android.moviemea.viewmodels.MovieDetailViewModel;

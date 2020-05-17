@@ -1,4 +1,4 @@
-package com.example.android.moviemea.ui;
+package com.example.android.moviemea.ui.activities;
 
 import android.content.Context;
 import android.content.Intent;
@@ -32,9 +32,9 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.android.moviemea.R;
-import com.example.android.moviemea.adapters.MovieAdapter;
-import com.example.android.moviemea.data.AppSharedPreferences;
-import com.example.android.moviemea.models.Movie;
+import com.example.android.moviemea.ui.adapters.MovieAdapter;
+import com.example.android.moviemea.utilities.AppSharedPreferences;
+import com.example.android.moviemea.models.remote.Movie;
 import com.example.android.moviemea.utilities.NetworkUtils;
 import com.example.android.moviemea.utilities.TheMoviesDbJsonUtils;
 

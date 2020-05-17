@@ -1,4 +1,4 @@
-package com.example.android.moviemea.ui;
+package com.example.android.moviemea.ui.activities;
 
 import androidx.core.app.NavUtils;
 import androidx.appcompat.app.ActionBar;

@@ -3,10 +3,10 @@ package com.example.android.moviemea.utilities;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.example.android.moviemea.models.Movie;
-import com.example.android.moviemea.models.MovieDetail;
-import com.example.android.moviemea.models.Review;
-import com.example.android.moviemea.models.Video;
+import com.example.android.moviemea.models.remote.Movie;
+import com.example.android.moviemea.models.remote.MovieDetail;
+import com.example.android.moviemea.models.remote.Review;
+import com.example.android.moviemea.models.remote.Video;
 
 import org.json.JSONArray;
 import org.json.JSONException;

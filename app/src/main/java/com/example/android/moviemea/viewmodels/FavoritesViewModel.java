@@ -6,8 +6,8 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
-import com.example.android.moviemea.database.AppDatabase;
-import com.example.android.moviemea.database.FavoriteMovie;
+import com.example.android.moviemea.data.AppDatabase;
+import com.example.android.moviemea.models.local.FavoriteMovie;
 
 import java.util.List;
 

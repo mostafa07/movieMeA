@@ -1,4 +1,4 @@
-package com.example.android.moviemea.models;
+package com.example.android.moviemea.models.remote;
 
 import java.util.List;
 

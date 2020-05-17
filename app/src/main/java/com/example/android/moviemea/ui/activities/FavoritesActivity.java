@@ -1,4 +1,4 @@
-package com.example.android.moviemea.ui;
+package com.example.android.moviemea.ui.activities;
 
 import android.content.Intent;
 
@@ -19,9 +19,9 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.example.android.moviemea.R;
-import com.example.android.moviemea.adapters.FavoriteMovieAdapter;
-import com.example.android.moviemea.database.AppDatabase;
-import com.example.android.moviemea.database.FavoriteMovie;
+import com.example.android.moviemea.ui.adapters.FavoriteMovieAdapter;
+import com.example.android.moviemea.data.AppDatabase;
+import com.example.android.moviemea.models.local.FavoriteMovie;
 import com.example.android.moviemea.executors.AppExecutors;
 import com.example.android.moviemea.viewmodels.FavoritesViewModel;
 

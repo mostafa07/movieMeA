@@ -1,10 +1,12 @@
-package com.example.android.moviemea.database;
+package com.example.android.moviemea.data;
 
 import android.content.Context;
 
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
+
+import com.example.android.moviemea.models.local.FavoriteMovie;
 
 
 @Database(entities = {FavoriteMovie.class}, version = 1, exportSchema = false)

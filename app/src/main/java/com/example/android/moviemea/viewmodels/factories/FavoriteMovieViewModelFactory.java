@@ -4,7 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.android.moviemea.database.AppDatabase;
+import com.example.android.moviemea.data.AppDatabase;
 import com.example.android.moviemea.viewmodels.FavoriteMovieViewModel;
 
 

@@ -3,8 +3,8 @@ package com.example.android.moviemea.viewmodels;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.example.android.moviemea.database.AppDatabase;
-import com.example.android.moviemea.database.FavoriteMovie;
+import com.example.android.moviemea.data.AppDatabase;
+import com.example.android.moviemea.models.local.FavoriteMovie;
 
 
 public class FavoriteMovieViewModel extends ViewModel {

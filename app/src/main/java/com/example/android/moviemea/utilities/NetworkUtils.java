@@ -2,8 +2,6 @@ package com.example.android.moviemea.utilities;
 
 import android.net.Uri;
 
-import com.example.android.moviemea.data.AppSharedPreferences;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
