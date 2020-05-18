@@ -51,7 +51,7 @@ public class FavoriteMovieAdapter extends RecyclerView.Adapter<FavoriteMovieAdap
     @Override
     public FavoriteMovieAdapter.FavoriteMovieViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View view = LayoutInflater.from(viewGroup.getContext())
-                .inflate(R.layout.favorite_movie_list_item, viewGroup, false);
+                .inflate(R.layout.item_list_favorite_movie, viewGroup, false);
         return new FavoriteMovieViewHolder(view);
     }
 
@@ -88,7 +88,7 @@ public class FavoriteMovieAdapter extends RecyclerView.Adapter<FavoriteMovieAdap
             moviePosterImageView = rootView.findViewById(R.id.favorite_movie_poster_image_view);
             movieTitleTextView = rootView.findViewById(R.id.favorite_movie_title_text_view);
             movieReleaseDateTextView = rootView.findViewById(R.id.favorite_movie_release_date_text_view);
-
+n
             rootView.setOnClickListener(this);
             rootView.setOnLongClickListener(this);
         }

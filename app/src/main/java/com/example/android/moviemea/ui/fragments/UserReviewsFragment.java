@@ -27,7 +27,8 @@ import java.net.URL;
 import java.util.List;
 
 
-public class UserReviewsFragment extends Fragment implements LoaderManager.LoaderCallbacks<List<Review>> {
+public class UserReviewsFragment extends Fragment
+        implements LoaderManager.LoaderCallbacks<List<Review>>, UserReviewAdapter.UserReviewOnClickHandler {
 
     private static final String LOG_TAG = UserReviewsFragment.class.getSimpleName();
     private static final int USER_REVIEWS_LOADER_KEY = 100;
@@ -53,10 +54,11 @@ public class UserReviewsFragment extends Fragment implements LoaderManager.Loade
         View rootView = inflater.inflate(R.layout.fragment_user_reviews, container, false);
 
         mReviewsRecyclerView = rootView.findViewById(R.id.user_reviews_recycler_view);
-        mAdapter = new UserReviewAdapter();
+        mAdapter = new UserReviewAdapter(this);
         mReviewsRecyclerView.setAdapter(mAdapter);
-        mReviewsRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mReviewsRecyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
+        mReviewsRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext(),
+                LinearLayoutManager.HORIZONTAL, false));
+        mReviewsRecyclerView.addItemDecoration(new DividerItemDecoration(requireContext(), DividerItemDecoration.HORIZONTAL));
 
         final int movieId = getArguments().getInt("movieId", -1);
 
@@ -72,7 +74,7 @@ public class UserReviewsFragment extends Fragment implements LoaderManager.Loade
     @NonNull
     @Override
     public Loader<List<Review>> onCreateLoader(int id, @Nullable Bundle bundle) {
-        return new ReviewsAsyncTaskLoader(getActivity(), bundle);
+        return new ReviewsAsyncTaskLoader(requireContext(), bundle);
     }
 
     @Override
@@ -85,6 +87,11 @@ public class UserReviewsFragment extends Fragment implements LoaderManager.Loade
 
     @Override
     public void onLoaderReset(@NonNull Loader<List<Review>> loader) {
+    }
+
+    @Override
+    public void onClick(Review review) {
+        UserReviewDialogFragment.newInstance(review).show(requireFragmentManager(), UserReviewsFragment.class.getSimpleName());
     }
 
 

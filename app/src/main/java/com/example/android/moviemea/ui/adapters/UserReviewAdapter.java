@@ -20,6 +20,19 @@ public class UserReviewAdapter extends RecyclerView.Adapter<UserReviewAdapter.Us
     private static final String LOG_TAG = UserReviewAdapter.class.getSimpleName();
 
     private List<Review> mReviewsList;
+    private UserReviewOnClickHandler mClickHandler;
+
+
+    /* Constructor */
+    public UserReviewAdapter(UserReviewOnClickHandler clickHandler) {
+        mClickHandler = clickHandler;
+    }
+
+    /* On Click Handler */
+    public interface UserReviewOnClickHandler {
+
+        void onClick(Review review);
+    }
 
     /* Helper Method to Update Reviews Data */
     public void setReviewsData(List<Review> reviewsList) {
@@ -39,7 +52,7 @@ public class UserReviewAdapter extends RecyclerView.Adapter<UserReviewAdapter.Us
     @NonNull
     @Override
     public UserReviewAdapter.UserReviewViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.user_review_list_item,
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_list_user_review,
                 parent, false);
         return new UserReviewViewHolder(view);
     }
@@ -61,7 +74,7 @@ public class UserReviewAdapter extends RecyclerView.Adapter<UserReviewAdapter.Us
 
     /* View Holder Class */
 
-    class UserReviewViewHolder extends RecyclerView.ViewHolder {
+    class UserReviewViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private TextView reviewContentTV;
         private TextView authorTV;
@@ -72,6 +85,14 @@ public class UserReviewAdapter extends RecyclerView.Adapter<UserReviewAdapter.Us
 
             reviewContentTV = itemView.findViewById(R.id.user_review_content_text_view);
             authorTV = itemView.findViewById(R.id.user_review_author_text_view);
+
+            rootView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            Review review = mReviewsList.get(getAdapterPosition());
+            mClickHandler.onClick(review);
         }
     }
 }
