@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.example.android.moviemea.R;
 import com.example.android.moviemea.ui.adapters.UserReviewAdapter;
@@ -33,6 +34,7 @@ public class UserReviewsFragment extends Fragment
     private static final String LOG_TAG = UserReviewsFragment.class.getSimpleName();
     private static final int USER_REVIEWS_LOADER_KEY = 100;
 
+    private TextView mUserReviewsHeaderTextView;
     private RecyclerView mReviewsRecyclerView;
     private UserReviewAdapter mAdapter;
 
@@ -53,6 +55,7 @@ public class UserReviewsFragment extends Fragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_user_reviews, container, false);
 
+        mUserReviewsHeaderTextView = rootView.findViewById(R.id.user_reviews_header_text_view);
         mReviewsRecyclerView = rootView.findViewById(R.id.user_reviews_recycler_view);
         mAdapter = new UserReviewAdapter(this);
         mReviewsRecyclerView.setAdapter(mAdapter);
@@ -79,9 +82,11 @@ public class UserReviewsFragment extends Fragment
 
     @Override
     public void onLoadFinished(@NonNull Loader<List<Review>> loader, List<Review> reviews) {
-        if (reviews != null) {
+        if (reviews != null && !reviews.isEmpty()) {
             mAdapter.setReviewsData(reviews);
             mReviewsRecyclerView.scheduleLayoutAnimation();
+        } else {
+            mUserReviewsHeaderTextView.setVisibility(View.GONE);
         }
     }
 
