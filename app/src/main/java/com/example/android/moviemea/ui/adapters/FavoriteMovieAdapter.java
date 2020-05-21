@@ -2,6 +2,7 @@ package com.example.android.moviemea.ui.adapters;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -88,7 +89,7 @@ public class FavoriteMovieAdapter extends RecyclerView.Adapter<FavoriteMovieAdap
             moviePosterImageView = rootView.findViewById(R.id.favorite_movie_poster_image_view);
             movieTitleTextView = rootView.findViewById(R.id.favorite_movie_title_text_view);
             movieReleaseDateTextView = rootView.findViewById(R.id.favorite_movie_release_date_text_view);
-n
+
             rootView.setOnClickListener(this);
             rootView.setOnLongClickListener(this);
         }

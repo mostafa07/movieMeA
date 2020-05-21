@@ -57,5 +57,8 @@
     <string name="cancel">Cancel</string>
 
     <string name="user_reviews_header">User Reviews</string>
-    <string name="reviews_movie_id_loader_bundle_key">movieId</string>
+    <string name="reviews_movie_id_loader_bundle_key" translateable="false">movieId</string>
+
+    <string name="videos_header">Trailers and Videos</string>
+    <string name="videos_movie_id_loader_bundle_key" translateable="false">movieId</string>
 </resources>

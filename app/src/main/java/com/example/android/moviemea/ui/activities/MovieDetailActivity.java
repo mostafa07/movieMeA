@@ -4,7 +4,6 @@ import android.content.Context;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.loader.app.LoaderManager;
@@ -29,6 +28,7 @@ import com.example.android.moviemea.models.local.FavoriteMovie;
 import com.example.android.moviemea.executors.AppExecutors;
 import com.example.android.moviemea.ui.fragments.UserReviewsFragment;
 import com.example.android.moviemea.models.remote.MovieDetail;
+import com.example.android.moviemea.ui.fragments.VideosFragment;
 import com.example.android.moviemea.utilities.NetworkUtils;
 import com.example.android.moviemea.utilities.TheMoviesDbJsonUtils;
 import com.example.android.moviemea.viewmodels.MovieDetailViewModel;
@@ -77,7 +77,7 @@ public class MovieDetailActivity extends AppCompatActivity implements LoaderMana
             loaderBundle.putInt(LOADER_BUNDLE_MOVIE_ID_KEY, movieId);
             getSupportLoaderManager().initLoader(MOVIE_DETAIL_LOADER_ID, loaderBundle, MovieDetailActivity.this);
 
-            displayUserReviewsFragment(movieId);
+            displayReviewsAndVideosFragments(movieId);
 
             setupViewModel(movieId);
         } else {
@@ -158,11 +158,14 @@ public class MovieDetailActivity extends AppCompatActivity implements LoaderMana
         });
     }
 
-    private void displayUserReviewsFragment(int movieId) {
-        UserReviewsFragment userReviewsFragment = UserReviewsFragment.newInstance(movieId);
+    private void displayReviewsAndVideosFragments(int movieId) {
+        final VideosFragment videosFragment = VideosFragment.newInstance(movieId);
+        final UserReviewsFragment userReviewsFragment = UserReviewsFragment.newInstance(movieId);
 
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.add(R.id.movie_detail_reviews_fragment_container, userReviewsFragment).commit();
+        getSupportFragmentManager().beginTransaction()
+                .add(R.id.movie_detail_videos_fragment_container, videosFragment)
+                .add(R.id.movie_detail_reviews_fragment_container, userReviewsFragment)
+                .commit();
     }
 
     @Override
